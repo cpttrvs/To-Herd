@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4673583489180173135}
   - component: {fileID: 2813741821264881649}
   - component: {fileID: 6700488871600406211}
+  - component: {fileID: 6472752555218895912}
+  - component: {fileID: 4839090577112083749}
   m_Layer: 0
   m_Name: Sheep
   m_TagString: Untagged
@@ -46,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheepSelector: {fileID: 783810241816634536}
+  speed: 3
 --- !u!95 &6700488871600406211
 Animator:
   serializedVersion: 3
@@ -65,6 +68,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!54 &6472752555218895912
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123382380598594124}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 64
+  m_CollisionDetection: 0
+--- !u!65 &4839090577112083749
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123382380598594124}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.87012625, y: 1.5097027, z: 1.9787159}
+  m_Center: {x: -0.041587114, y: 0.83521605, z: 0.16557717}
 --- !u!1 &5153212360542234782
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,35 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5af265412c57749a3a5d57c11746ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &3204727076436495310
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5815258312073109219}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &4591410889722581006
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5815258312073109219}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.4084694, y: 4.5039077, z: 5.7001176}
-  m_Center: {x: -0.018757582, y: 2.3323185, z: 0.70287466}
 --- !u!1001 &2563145814390999018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,12 +244,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7ce7123b04a1c14c95762f091f4f63a, type: 3}
---- !u!1 &5815258312073109219 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: d7ce7123b04a1c14c95762f091f4f63a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2563145814390999018}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7415365108967648496 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d7ce7123b04a1c14c95762f091f4f63a,

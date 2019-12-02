@@ -7,7 +7,11 @@ public class SheepController : MonoBehaviour
     [SerializeField]
     private SheepSelector sheepSelector = null;
 
+    [SerializeField]
+    private float speed = 3f;
+
     private bool hasAMoveOrder = false;
+    private Vector3 currentMovePosition = Vector3.zero;
 
     private void Start()
     {
@@ -25,7 +29,16 @@ public class SheepController : MonoBehaviour
 
     private void Update()
     {
-        
+        if(hasAMoveOrder)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentMovePosition.x, transform.position.y, currentMovePosition.z), speed * Time.deltaTime);
+
+            if(transform.position.x == currentMovePosition.x && transform.position.z == currentMovePosition.z)
+            {
+                hasAMoveOrder = false;
+                currentMovePosition = Vector3.zero;
+            }
+        }
     }
 
 
@@ -43,5 +56,7 @@ public class SheepController : MonoBehaviour
     void SheepSelector_OnMoveOrder(Vector3 pos)
     {
         Debug.Log("OnMove " + pos);
+        hasAMoveOrder = true;
+        currentMovePosition = pos;
     }
 }
