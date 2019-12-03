@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6700488871600406211}
   - component: {fileID: 6472752555218895912}
   - component: {fileID: 4839090577112083749}
+  - component: {fileID: 7417872795240074697}
   m_Layer: 0
   m_Name: Sheep
   m_TagString: Untagged
@@ -48,6 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheepSelector: {fileID: 783810241816634536}
+  navMeshAgent: {fileID: 7417872795240074697}
+  animator: {fileID: 604230595945628042}
   speed: 3
 --- !u!95 &6700488871600406211
 Animator:
@@ -82,7 +85,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 64
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &4839090577112083749
 BoxCollider:
@@ -93,10 +96,32 @@ BoxCollider:
   m_GameObject: {fileID: 5123382380598594124}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.87012625, y: 1.5097027, z: 1.9787159}
   m_Center: {x: -0.041587114, y: 0.83521605, z: 0.16557717}
+--- !u!195 &7417872795240074697
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123382380598594124}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &5153212360542234782
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,11 +267,22 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: d7ce7123b04a1c14c95762f091f4f63a,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6329201285a9ef2488d7d6be5bd8139e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7ce7123b04a1c14c95762f091f4f63a, type: 3}
 --- !u!4 &7415365108967648496 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d7ce7123b04a1c14c95762f091f4f63a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2563145814390999018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &604230595945628042 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: d7ce7123b04a1c14c95762f091f4f63a,
     type: 3}
   m_PrefabInstance: {fileID: 2563145814390999018}
   m_PrefabAsset: {fileID: 0}

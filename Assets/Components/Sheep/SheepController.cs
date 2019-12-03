@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SheepController : MonoBehaviour
 {
     [SerializeField]
     private SheepSelector sheepSelector = null;
+    [SerializeField]
+    private NavMeshAgent navMeshAgent = null;
+    [SerializeField]
+    private Animator animator;
 
     [SerializeField]
     private float speed = 3f;
@@ -18,6 +23,8 @@ public class SheepController : MonoBehaviour
         sheepSelector.OnSelection += SheepSelector_OnSelection;
         sheepSelector.OnDeselection += SheepSelector_OnDeselection;
         sheepSelector.OnMoveOrder += SheepSelector_OnMoveOrder;
+
+        animator.SetBool("isMoving", false);
     }
 
     private void OnDestroy()
@@ -31,12 +38,14 @@ public class SheepController : MonoBehaviour
     {
         if(hasAMoveOrder)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentMovePosition.x, transform.position.y, currentMovePosition.z), speed * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentMovePosition.x, transform.position.y, currentMovePosition.z), speed * Time.deltaTime);
+            navMeshAgent.SetDestination(currentMovePosition);
 
             if(transform.position.x == currentMovePosition.x && transform.position.z == currentMovePosition.z)
             {
                 hasAMoveOrder = false;
                 currentMovePosition = Vector3.zero;
+                animator.SetBool("isMoving", false);
             }
         }
     }
@@ -58,5 +67,6 @@ public class SheepController : MonoBehaviour
         Debug.Log("OnMove " + pos);
         hasAMoveOrder = true;
         currentMovePosition = pos;
+        animator.SetBool("isMoving", true);
     }
 }
