@@ -54,12 +54,12 @@ public class SheepController : MonoBehaviour
 
     void SheepSelector_OnSelection()
     {
-        Debug.Log("OnSelection");
+        Debug.Log("[Sheep] OnSelection: " + name);
     }
 
     void SheepSelector_OnDeselection()
     {
-        Debug.Log("OnDeselection");
+        Debug.Log("[Sheep] OnDeselection: " + name);
     }
 
     void SheepSelector_OnMoveOrder(Vector3 pos)

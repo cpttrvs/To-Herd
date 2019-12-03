@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SheepSelector : MonoBehaviour
 {
-    private bool isSelected = false;
+    public bool isSelected = false;
 
     public Action OnSelection;
     public Action OnDeselection;
@@ -14,21 +14,21 @@ public class SheepSelector : MonoBehaviour
 
     public void Select()
     {
-        Debug.Log("SELECTED");
+        //Debug.Log("SELECTED");
         isSelected = true;
         OnSelection?.Invoke();
     }
 
     public void Deselect()
     {
-        Debug.Log("DESELECTED");
+        //Debug.Log("DESELECTED");
         isSelected = false;
         OnDeselection?.Invoke();
     }
 
     public void Move(Vector3 pos)
     {
-        Debug.Log("MOVE:" + pos);
+        //Debug.Log("MOVE:" + pos);
         OnMoveOrder?.Invoke(pos);
     }
 }

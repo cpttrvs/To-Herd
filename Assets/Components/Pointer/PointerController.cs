@@ -11,6 +11,7 @@ public class PointerController : MonoBehaviour
     [SerializeField]
     private LayerMask terrainLayer = 0;
 
+    [SerializeField]
     private SheepSelector currentSelectedSheep = null;
     
     void Start()
@@ -25,11 +26,13 @@ public class PointerController : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
+            //Debug.Log("left");
             SelectSheep();
         }
 
         if (Input.GetMouseButtonDown(1))
         {
+            //Debug.Log("right");
             MoveSheep();
         }
 
@@ -40,43 +43,48 @@ public class PointerController : MonoBehaviour
         // raycast from mouse position in camera
         Ray rayClick = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit;
-
-        // raycast in selectionLayer
-        if (Physics.Raycast(rayClick, out raycastHit, Mathf.Infinity, selectionLayer))
+        
+        if(Physics.Raycast(rayClick, out raycastHit, Mathf.Infinity, selectionLayer.value))
         {
-            SheepSelector sheepSelector = raycastHit.transform.gameObject.GetComponentInChildren<SheepSelector>();
+            Debug.DrawRay(rayClick.origin, rayClick.direction * 100, Color.red);
 
-            if (sheepSelector != null)
+            SheepSelector sheepController = raycastHit.transform.GetComponentInChildren<SheepSelector>();
+
+            if(sheepController == null)
             {
-                // if the sheep selected is different from the previous stored one
-                if (sheepSelector != currentSelectedSheep)
+                Debug.Log("[PointerController] SheepSelector not found in " + raycastHit.transform.name);
+            } else
+            {
+                if(currentSelectedSheep != sheepController)
                 {
-                    // select the new sheep, deselect the previous one
-                    sheepSelector.Select();
+                    Debug.Log("[PointerController] Sheep selected: " + raycastHit.transform.name);
 
                     if (currentSelectedSheep != null)
                     {
                         currentSelectedSheep.Deselect();
                     }
 
-                    // replace the current sheep
-                    currentSelectedSheep = sheepSelector;
+                    currentSelectedSheep = sheepController;
+
+                    currentSelectedSheep.Select();
+                } else
+                {
+                    Debug.Log("[PointerController] Same sheep selected: " + raycastHit.transform.name);
                 }
             }
-            else
-            {
-                Debug.LogError("[PointerController] No SheepSelector found on " + raycastHit.transform.name);
-            }
-        }
-        else
+        } else
         {
-            // deselect the current sheep if clicked somewhere else
-            if (currentSelectedSheep != null)
+            Debug.DrawRay(rayClick.origin, rayClick.direction * 100, Color.yellow);
+
+            Debug.Log("[PointerController] No sheep selected");
+
+            if(currentSelectedSheep != null)
             {
                 currentSelectedSheep.Deselect();
                 currentSelectedSheep = null;
             }
         }
+
     }
 
     void MoveSheep()
@@ -88,7 +96,7 @@ public class PointerController : MonoBehaviour
             RaycastHit raycastHit;
 
             // raycast in selectionLayer
-            if (Physics.Raycast(rayClick, out raycastHit, Mathf.Infinity, terrainLayer))
+            if (Physics.Raycast(rayClick, out raycastHit, 100f, terrainLayer))
             {
                 currentSelectedSheep.Move(raycastHit.point);
             }
@@ -101,14 +109,14 @@ public class PointerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit raycastHit;
-        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity, selectionLayer))
+        if (Physics.Raycast(ray, out raycastHit, 100f, selectionLayer))
         {
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red);
-            //Debug.Log(raycastHit.transform.name + " " + raycastHit.transform.gameObject.layer);
+            Debug.Log("hit");
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
         }
         else
         {
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
         }
     }
 }
