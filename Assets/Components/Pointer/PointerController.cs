@@ -111,7 +111,6 @@ public class PointerController : MonoBehaviour
         RaycastHit raycastHit;
         if (Physics.Raycast(ray, out raycastHit, 100f, selectionLayer))
         {
-            Debug.Log("hit");
             Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
         }
         else

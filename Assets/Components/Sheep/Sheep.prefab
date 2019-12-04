@@ -1076,6 +1076,7 @@ GameObject:
   - component: {fileID: 1373921202547741166}
   - component: {fileID: 1373921202547741167}
   - component: {fileID: 1373921202547741160}
+  - component: {fileID: 4855207392238672307}
   m_Layer: 0
   m_Name: Sheep
   m_TagString: Untagged
@@ -1114,7 +1115,9 @@ MonoBehaviour:
   sheepSelector: {fileID: 1373921201753055074}
   navMeshAgent: {fileID: 1373921202547741160}
   animator: {fileID: 4098716575947434735}
-  speed: 3
+  agent: {fileID: 4855207392238672307}
+  range: 5
+  followRadius: 3
 --- !u!195 &1373921202547741160
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1137,6 +1140,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &4855207392238672307
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373921202547741163}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0774deb963edade419d04fbb616c3cb7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1373921202625583377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,7 +1322,7 @@ GameObject:
   - component: {fileID: 6227232276628801429}
   - component: {fileID: 4098716575947434735}
   m_Layer: 0
-  m_Name: Sheep
+  m_Name: SheepModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

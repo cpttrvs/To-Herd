@@ -12,8 +12,14 @@ public class SheepController : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [Header("Agent")]
     [SerializeField]
-    private float speed = 3f;
+    private Animator agent;
+    [SerializeField]
+    private float range;
+    [SerializeField]
+    private float followRadius;
+
 
     private bool hasAMoveOrder = false;
     private Vector3 currentMovePosition = Vector3.zero;
@@ -25,6 +31,7 @@ public class SheepController : MonoBehaviour
         sheepSelector.OnMoveOrder += SheepSelector_OnMoveOrder;
 
         animator.SetBool("isMoving", false);
+        agent.SetBool("isIdling", true);
     }
 
     private void OnDestroy()
@@ -38,7 +45,8 @@ public class SheepController : MonoBehaviour
     {
         if(hasAMoveOrder)
         {
-            //transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentMovePosition.x, transform.position.y, currentMovePosition.z), speed * Time.deltaTime);
+            animator.SetBool("isMoving", true);
+
             navMeshAgent.SetDestination(currentMovePosition);
 
             if(transform.position.x == currentMovePosition.x && transform.position.z == currentMovePosition.z)
@@ -46,6 +54,7 @@ public class SheepController : MonoBehaviour
                 hasAMoveOrder = false;
                 currentMovePosition = Vector3.zero;
                 animator.SetBool("isMoving", false);
+                agent.SetBool("isFollowingOrder", false);
             }
         }
     }
@@ -64,9 +73,12 @@ public class SheepController : MonoBehaviour
 
     void SheepSelector_OnMoveOrder(Vector3 pos)
     {
-        Debug.Log("OnMove " + pos);
+        Debug.Log("[Sheep] OnMove: " + pos + ", " + name);
+
         hasAMoveOrder = true;
         currentMovePosition = pos;
-        animator.SetBool("isMoving", true);
+
+        agent.SetBool("isFollowingOrder", true);
+
     }
 }
