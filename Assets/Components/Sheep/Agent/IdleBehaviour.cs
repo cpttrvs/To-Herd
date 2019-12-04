@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
-    private CustomCollider visionRadius = null;
+    private SensorsLinker sensors = null;
     private Transform sheepTransform = null;
     private NavMeshAgent sheepAgent = null;
+
+    private CustomCollider visionRadius = null;
+    private CustomCollider followRadius = null;
+    private CustomCollider wanderRadius = null;
 
     [Header("Realistic idle")]
     [SerializeField]
@@ -17,6 +21,10 @@ public class IdleBehaviour : StateMachineBehaviour
     [SerializeField]
     private int frequency = 100;
     private int currentStep = 0;
+
+    [Header("Follow state")]
+    [SerializeField]
+    private int numberOfSheepsRequired = 3;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -40,25 +48,30 @@ public class IdleBehaviour : StateMachineBehaviour
             }
         }
 
-        if (visionRadius == null)
+        if(sensors == null)
         {
-            visionRadius = animator.GetComponentInChildren<SensorsLinker>().visionCollider;
+            sensors = animator.GetComponentInChildren<SensorsLinker>();
 
-            if (visionRadius == null)
+            if(sensors == null)
             {
-                Debug.LogError("[IdleBehaviour] OnStateEnter: no collider found");
+                Debug.LogError("[IdleBehaviour] OnStateEnter: no sensors linker found");
             }
         }
 
-        visionRadius.OnCollisionEntered += VisionRadius_OnCollisionEntered;
-        visionRadius.OnCollisionExited += VisionRadius_OnCollisionExited;
-        visionRadius.OnCollisionStayed += VisionRadius_OnCollisionStayed;
+        if (visionRadius == null) visionRadius = sensors.visionCollider;
+
+        if (followRadius == null) followRadius = sensors.followCollider;
+
+        if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
 
         currentStep = Random.Range(0, frequency);
+
+        Debug.Log(sheepTransform.name + " entered IDLE");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // realistic idle
         currentStep++;
         if(currentStep == frequency)
         {
@@ -70,25 +83,24 @@ public class IdleBehaviour : StateMachineBehaviour
 
             sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
         }
+
+        // when to follow (if less than the required numbers around)
+        Collider[] hitColliders = Physics.OverlapSphere(followRadius.GetPosition(), followRadius.GetRadius());
+        int numberOfSheepsInRadius = 0;
+        for(int i = 0; i < hitColliders.Length; i++)
+        {
+            if (hitColliders[i].CompareTag("Sheep") && hitColliders[i].gameObject != sheepTransform.gameObject)
+                numberOfSheepsInRadius++;
+        }
+
+        if(numberOfSheepsInRadius < numberOfSheepsRequired)
+        {
+            animator.SetBool("isIdling", false);
+            animator.SetBool("isFollowing", true);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        visionRadius.OnCollisionEntered -= VisionRadius_OnCollisionEntered;
-        visionRadius.OnCollisionExited -= VisionRadius_OnCollisionExited;
-        visionRadius.OnCollisionStayed -= VisionRadius_OnCollisionStayed;
-    }
-
-    void VisionRadius_OnCollisionEntered(Collision collision)
-    {
-
-    }
-
-    void VisionRadius_OnCollisionExited(Collision collision)
-    {
-
-    }
-    void VisionRadius_OnCollisionStayed(Collision collision)
     {
 
     }

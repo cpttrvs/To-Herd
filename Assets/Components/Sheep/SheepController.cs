@@ -11,14 +11,8 @@ public class SheepController : MonoBehaviour
     private NavMeshAgent navMeshAgent = null;
     [SerializeField]
     private Animator animator;
-
-    [Header("Agent")]
     [SerializeField]
     private Animator agent;
-    [SerializeField]
-    private float range;
-    [SerializeField]
-    private float followRadius;
 
 
     private bool hasAMoveOrder = false;

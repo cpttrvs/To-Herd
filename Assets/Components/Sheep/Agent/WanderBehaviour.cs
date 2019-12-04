@@ -17,10 +17,6 @@ public class WanderBehaviour : StateMachineBehaviour
                 Debug.LogError("[WanderBehaviour] OnStateEnter: no collider found");
             }
         }
-
-        radius.OnCollisionEntered += Radius_OnCollisionEntered;
-        radius.OnCollisionExited += Radius_OnCollisionExited;
-        radius.OnCollisionStayed += Radius_OnCollisionStayed;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -30,22 +26,5 @@ public class WanderBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        radius.OnCollisionEntered -= Radius_OnCollisionEntered;
-        radius.OnCollisionExited -= Radius_OnCollisionExited;
-        radius.OnCollisionStayed -= Radius_OnCollisionStayed;
-    }
-
-    void Radius_OnCollisionEntered(Collision collision)
-    {
-
-    }
-
-    void Radius_OnCollisionExited(Collision collision)
-    {
-
-    }
-    void Radius_OnCollisionStayed(Collision collision)
-    {
-
     }
 }

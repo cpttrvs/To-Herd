@@ -77,6 +77,7 @@ MonoBehaviour:
   turnRate: 45
   movementDistance: 2
   frequency: 300
+  numberOfSheepsRequired: 3
 --- !u!1101 &-5712773049426094300
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -210,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c40c89d4765e2047bc1af02e8fcbf31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfSheepsRequired: 2
 --- !u!1107 &-460149433821503515
 AnimatorStateMachine:
   serializedVersion: 5

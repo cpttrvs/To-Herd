@@ -1078,9 +1078,11 @@ GameObject:
   - component: {fileID: 1373921202547741160}
   - component: {fileID: 4855207392238672307}
   - component: {fileID: 3171300497596950720}
+  - component: {fileID: 1353548248232961741}
+  - component: {fileID: 949717531307138442}
   m_Layer: 0
   m_Name: Sheep
-  m_TagString: Untagged
+  m_TagString: Sheep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1176,6 +1178,35 @@ MonoBehaviour:
   visionCollider: {fileID: 7479434168755709879}
   followCollider: {fileID: 2967464940245423683}
   wanderCollider: {fileID: 8787013274309721470}
+--- !u!135 &1353548248232961741
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373921202547741163}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &949717531307138442
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373921202547741163}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1373921202625583377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1482,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2946975479985632659}
-  - component: {fileID: 9165455466742012229}
   - component: {fileID: 8787013274309721470}
   m_Layer: 0
   m_Name: Wander
@@ -1474,19 +1504,6 @@ Transform:
   m_Father: {fileID: 3254273012295862070}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &9165455466742012229
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3449974930359026760}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8787013274309721470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,6 +1516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9f0a59ec033344a96593c6252158c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 4
+  center: {x: 0, y: 0, z: 0}
+  color: {r: 1, g: 0, b: 0.6484027, a: 1}
 --- !u!1 &6164929549289074846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,7 +1561,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3349513165367507390}
-  - component: {fileID: 7212510077533530173}
   - component: {fileID: 7479434168755709879}
   m_Layer: 0
   m_Name: Vision
@@ -1564,19 +1583,6 @@ Transform:
   m_Father: {fileID: 3254273012295862070}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7212510077533530173
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6768890473677387526}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7479434168755709879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1589,6 +1595,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9f0a59ec033344a96593c6252158c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 7.5
+  center: {x: 0, y: 0, z: 0}
+  color: {r: 0.4575472, g: 0.56718194, b: 1, a: 1}
 --- !u!1 &7964496839790396088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,7 +1607,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1880636203821104492}
-  - component: {fileID: 195350462704401561}
   - component: {fileID: 2967464940245423683}
   m_Layer: 0
   m_Name: Follow
@@ -1621,19 +1629,6 @@ Transform:
   m_Father: {fileID: 3254273012295862070}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &195350462704401561
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7964496839790396088}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2967464940245423683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,3 +1641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9f0a59ec033344a96593c6252158c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 5
+  center: {x: 0, y: 0, z: 0}
+  color: {r: 0.22467959, g: 0.9339623, b: 0.28039482, a: 1}

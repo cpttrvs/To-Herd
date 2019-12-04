@@ -5,22 +5,21 @@ using System;
 
 public class CustomCollider : MonoBehaviour
 {
-    public Action<Collision> OnCollisionEntered;
-    public Action<Collision> OnCollisionExited;
-    public Action<Collision> OnCollisionStayed;
+    [SerializeField]
+    private float radius;
 
-    private void OnCollisionEnter(Collision collision)
+    [SerializeField]
+    private Vector3 center;
+
+    [SerializeField]
+    private Color color;
+
+    private void OnDrawGizmosSelected()
     {
-        OnCollisionEntered?.Invoke(collision);
+        Gizmos.color = color;
+        Gizmos.DrawWireSphere(transform.position + center, radius);
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        OnCollisionExited?.Invoke(collision);
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        OnCollisionStayed?.Invoke(collision);
-    }
+    public Vector3 GetPosition() { return transform.position + center; }
+    public float GetRadius() { return radius; }
 }
