@@ -23,6 +23,7 @@ public class SheepController : MonoBehaviour
 
     private bool hasAMoveOrder = false;
     private Vector3 currentMovePosition = Vector3.zero;
+    private Vector3 lastPosition = Vector3.zero;
 
     private void Start()
     {
@@ -32,6 +33,7 @@ public class SheepController : MonoBehaviour
 
         animator.SetBool("isMoving", false);
         agent.SetBool("isIdling", true);
+        lastPosition = transform.position;
     }
 
     private void OnDestroy()
@@ -43,20 +45,27 @@ public class SheepController : MonoBehaviour
 
     private void Update()
     {
-        if(hasAMoveOrder)
+        if(lastPosition != transform.position)
         {
             animator.SetBool("isMoving", true);
+        } else
+        {
+            animator.SetBool("isMoving", false);
+        }
 
+        if(hasAMoveOrder)
+        {
             navMeshAgent.SetDestination(currentMovePosition);
 
             if(transform.position.x == currentMovePosition.x && transform.position.z == currentMovePosition.z)
             {
                 hasAMoveOrder = false;
                 currentMovePosition = Vector3.zero;
-                animator.SetBool("isMoving", false);
                 agent.SetBool("isFollowingOrder", false);
             }
         }
+
+        lastPosition = transform.position;
     }
 
 

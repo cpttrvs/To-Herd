@@ -1,50 +1,94 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
-    private CustomCollider radius = null;
+    private CustomCollider visionRadius = null;
+    private Transform sheepTransform = null;
+    private NavMeshAgent sheepAgent = null;
+
+    [Header("Realistic idle")]
+    [SerializeField]
+    private float turnRate = 30;
+    [SerializeField]
+    private float movementDistance = 2;
+    [SerializeField]
+    private int frequency = 100;
+    private int currentStep = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (radius == null)
+        if(sheepAgent == null)
         {
-            radius = animator.GetComponentInChildren<SensorsLinker>().visionCollider;
+            sheepAgent = animator.GetComponentInChildren<NavMeshAgent>();
 
-            if (radius == null)
+            if(sheepAgent == null)
+            {
+                Debug.LogError("[IdleBehaviour] OnStateEnter: no nav mesh agent found");
+            }
+        }
+
+        if(sheepTransform == null)
+        {
+            sheepTransform = animator.gameObject.transform;
+
+            if(sheepTransform == null)
+            {
+                Debug.LogError("[IdleBehaviour] OnStateEnter: no sheep transform found");
+            }
+        }
+
+        if (visionRadius == null)
+        {
+            visionRadius = animator.GetComponentInChildren<SensorsLinker>().visionCollider;
+
+            if (visionRadius == null)
             {
                 Debug.LogError("[IdleBehaviour] OnStateEnter: no collider found");
             }
         }
 
-        radius.OnCollisionEntered += Radius_OnCollisionEntered;
-        radius.OnCollisionExited += Radius_OnCollisionExited;
-        radius.OnCollisionStayed += Radius_OnCollisionStayed;
+        visionRadius.OnCollisionEntered += VisionRadius_OnCollisionEntered;
+        visionRadius.OnCollisionExited += VisionRadius_OnCollisionExited;
+        visionRadius.OnCollisionStayed += VisionRadius_OnCollisionStayed;
+
+        currentStep = Random.Range(0, frequency);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        currentStep++;
+        if(currentStep == frequency)
+        {
+            currentStep = 0;
 
+            float angle = Random.Range(-turnRate, turnRate);
+
+            sheepTransform.Rotate(Vector3.up, angle);
+
+            sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        radius.OnCollisionEntered -= Radius_OnCollisionEntered;
-        radius.OnCollisionExited -= Radius_OnCollisionExited;
-        radius.OnCollisionStayed -= Radius_OnCollisionStayed;
+        visionRadius.OnCollisionEntered -= VisionRadius_OnCollisionEntered;
+        visionRadius.OnCollisionExited -= VisionRadius_OnCollisionExited;
+        visionRadius.OnCollisionStayed -= VisionRadius_OnCollisionStayed;
     }
 
-    void Radius_OnCollisionEntered(Collision collision)
+    void VisionRadius_OnCollisionEntered(Collision collision)
     {
 
     }
 
-    void Radius_OnCollisionExited(Collision collision)
+    void VisionRadius_OnCollisionExited(Collision collision)
     {
 
     }
-    void Radius_OnCollisionStayed(Collision collision)
+    void VisionRadius_OnCollisionStayed(Collision collision)
     {
 
     }
