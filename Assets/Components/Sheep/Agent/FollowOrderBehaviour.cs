@@ -22,7 +22,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sheepAgent == null)
             {
-                Debug.LogError("[IdleBehaviour] OnStateEnter: no nav mesh agent found");
+                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no nav mesh agent found");
             }
         }
 
@@ -32,7 +32,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sensors == null)
             {
-                Debug.LogError("[FollowBehaviour] OnStateEnter: no sensors linker found");
+                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no sensors linker found");
             }
         }
 
@@ -42,7 +42,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sheepTransform == null)
             {
-                Debug.LogError("[FollowBehaviour] OnStateEnter: no sheep transform found");
+                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no sheep transform found");
             }
         }
 

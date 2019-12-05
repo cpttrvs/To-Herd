@@ -34,7 +34,7 @@ public class WanderBehaviour : StateMachineBehaviour
 
             if (sheepAgent == null)
             {
-                Debug.LogError("[IdleBehaviour] OnStateEnter: no nav mesh agent found");
+                Debug.LogError("[WanderBehaviour] OnStateEnter: no nav mesh agent found");
             }
         }
 
@@ -44,7 +44,7 @@ public class WanderBehaviour : StateMachineBehaviour
 
             if (sensors == null)
             {
-                Debug.LogError("[FollowBehaviour] OnStateEnter: no sensors linker found");
+                Debug.LogError("[WanderBehaviour] OnStateEnter: no sensors linker found");
             }
         }
 
@@ -54,7 +54,7 @@ public class WanderBehaviour : StateMachineBehaviour
 
             if (sheepTransform == null)
             {
-                Debug.LogError("[FollowBehaviour] OnStateEnter: no sheep transform found");
+                Debug.LogError("[WanderBehaviour] OnStateEnter: no sheep transform found");
             }
         }
 
@@ -69,38 +69,48 @@ public class WanderBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // realistic wander
-        currentStep++;
-        if (currentStep == frequency)
-        {
-            currentStep = 0;
-
-            float angle = Random.Range(-turnRate, turnRate);
-
-            sheepTransform.Rotate(Vector3.up, angle);
-
-            sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
-        }
-
-        // if at least one is in wander, go to idle
-        List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
-
-        if(wanderObjects.Count > 1)
+        // detect enemy
+        List<GameObject> enemies = visionRadius.GetAllColliders("Enemy");
+        if (enemies.Count > 0)
         {
             animator.SetBool("isWandering", false);
-            animator.SetBool("isIdling", true);
-        } else
+            animator.SetBool("isFleeing", true);
+        }
+        else
         {
-            // if at least one is in vision radius, go to follow
-            List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
+            // realistic wander
+            currentStep++;
+            if (currentStep == frequency)
+            {
+                currentStep = 0;
 
-            if (visionObjects.Count > 1)
+                float angle = Random.Range(-turnRate, turnRate);
+
+                sheepTransform.Rotate(Vector3.up, angle);
+
+                sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
+            }
+
+            // if at least one is in wander, go to idle
+            List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
+
+            if (wanderObjects.Count > 1)
             {
                 animator.SetBool("isWandering", false);
-                animator.SetBool("isFollowing", true);
+                animator.SetBool("isIdling", true);
+            }
+            else
+            {
+                // if at least one is in vision radius, go to follow
+                List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
+
+                if (visionObjects.Count > 1)
+                {
+                    animator.SetBool("isWandering", false);
+                    animator.SetBool("isFollowing", true);
+                }
             }
         }
-
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

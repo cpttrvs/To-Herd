@@ -25,7 +25,7 @@ public class FollowBehaviour : StateMachineBehaviour
 
             if (sheepAgent == null)
             {
-                Debug.LogError("[IdleBehaviour] OnStateEnter: no nav mesh agent found");
+                Debug.LogError("[FollowBehaviour] OnStateEnter: no nav mesh agent found");
             }
         }
 
@@ -59,6 +59,7 @@ public class FollowBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        
         List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
         List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
 
@@ -88,20 +89,22 @@ public class FollowBehaviour : StateMachineBehaviour
         }
 
         // if there are the same amount of sheep in wander than in vision, then go to idle
-        if(wanderObjects.Count == visionObjects.Count)
+        if (wanderObjects.Count == visionObjects.Count)
         {
             animator.SetBool("isFollowing", false);
             animator.SetBool("isIdling", true);
         }
 
         // if no one in sight, go to wander
-        if(visionObjects.Count == 1)
+        if (visionObjects.Count == 1)
         {
             animator.SetBool("isFollowing", false);
             animator.SetBool("isWandering", true);
         }
 
         currentTimer++;
+        
+
     }
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

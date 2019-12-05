@@ -1482,7 +1482,7 @@ GameObject:
   - component: {fileID: 2946975479985632659}
   - component: {fileID: 8787013274309721470}
   m_Layer: 0
-  m_Name: Wander
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1607,7 +1607,7 @@ GameObject:
   - component: {fileID: 1880636203821104492}
   - component: {fileID: 2967464940245423683}
   m_Layer: 0
-  m_Name: Follow
+  m_Name: Medium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

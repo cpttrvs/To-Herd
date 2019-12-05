@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Selection
   - Sheep
+  - Enemy
   layers:
   - Default
   - TransparentFX
