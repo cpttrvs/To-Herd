@@ -14,6 +14,11 @@ public class FollowOrderBehaviour : StateMachineBehaviour
     private CustomCollider followRadius = null;
     private CustomCollider wanderRadius = null;
 
+    [SerializeField]
+    private int frequencyCheck = 100;
+    private int currentTimer = 0;
+    private Vector3 previousPos = Vector3.zero;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (sheepAgent == null)
@@ -49,17 +54,39 @@ public class FollowOrderBehaviour : StateMachineBehaviour
         if (visionRadius == null) visionRadius = sensors.visionCollider;
         if (followRadius == null) followRadius = sensors.followCollider;
         if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
-        
+
+        previousPos = sheepTransform.position;
+        currentTimer = 0;
     }
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(sheepAgent.destination == sheepTransform.position)
+        {
+            animator.SetBool("isFollowingOrder", false);
+            animator.SetBool("isIdling", true);
+        } else
+        {
+            currentTimer++;
+            if (currentTimer == frequencyCheck)
+            {
+                if (sheepTransform.position == previousPos)
+                {
+                    Debug.Log("[FollowOrderBehaviour] Same position, sanity check");
+                    animator.SetBool("isFollowingOrder", false);
+                    animator.SetBool("isIdling", true);
+                }
 
+                currentTimer = 0;
+            }
+        }
+
+        previousPos = sheepTransform.position;
     }
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        sheepAgent.ResetPath();
     }
 }
