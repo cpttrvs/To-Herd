@@ -66,6 +66,8 @@ public class IdleBehaviour : StateMachineBehaviour
 
         currentStep = Random.Range(0, frequency);
 
+        sheepAgent.SetDestination(sheepTransform.position);
+
         Debug.Log(sheepTransform.name + " entered IDLE");
     }
 
@@ -82,18 +84,16 @@ public class IdleBehaviour : StateMachineBehaviour
             sheepTransform.Rotate(Vector3.up, angle);
 
             sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
-        }
 
-        // when to follow (if less than the required numbers around)
-        Collider[] hitColliders = Physics.OverlapSphere(followRadius.GetPosition(), followRadius.GetRadius());
-        int numberOfSheepsInRadius = 0;
-        for(int i = 0; i < hitColliders.Length; i++)
-        {
-            if (hitColliders[i].CompareTag("Sheep") && hitColliders[i].gameObject != sheepTransform.gameObject)
-                numberOfSheepsInRadius++;
+            Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
         }
-
-        if(numberOfSheepsInRadius < numberOfSheepsRequired)
+        
+        // if there are more sheeps in vision than in wander, go to follow
+        List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
+        List<GameObject> followObjects = followRadius.GetAllColliders("Sheep");
+        List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
+        
+        if(visionObjects.Count > wanderObjects.Count)
         {
             animator.SetBool("isIdling", false);
             animator.SetBool("isFollowing", true);

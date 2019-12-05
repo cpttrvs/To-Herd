@@ -50,6 +50,7 @@ public class SheepController : MonoBehaviour
         if(hasAMoveOrder)
         {
             navMeshAgent.SetDestination(currentMovePosition);
+            Debug.DrawLine(transform.position, currentMovePosition, Color.red);
 
             if(transform.position.x == currentMovePosition.x && transform.position.z == currentMovePosition.z)
             {

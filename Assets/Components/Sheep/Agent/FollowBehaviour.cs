@@ -11,6 +11,7 @@ public class FollowBehaviour : StateMachineBehaviour
 
     private CustomCollider visionRadius = null;
     private CustomCollider followRadius = null;
+    private CustomCollider wanderRadius = null;
 
     [Header("Follow state")]
     [SerializeField]
@@ -50,6 +51,7 @@ public class FollowBehaviour : StateMachineBehaviour
 
         if (visionRadius == null) visionRadius = sensors.visionCollider;
         if (followRadius == null) followRadius = sensors.followCollider;
+        if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
 
 
         Debug.Log(sheepTransform.name + " entered FOLLOW");
@@ -57,43 +59,36 @@ public class FollowBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // move towards the closest sheep in vision
-        Collider[] visionColliders = Physics.OverlapSphere(visionRadius.GetPosition(), visionRadius.GetRadius());
+        // move at the mean position of all sheeps in visionRadius
+        List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
 
-        float closestDistance = float.MaxValue;
-        Vector3 closestSheep = Vector3.zero;
-
-        for (int i = 0; i < visionColliders.Length; i++)
+        Vector3 meanPosition = sheepTransform.position;
+        foreach(GameObject go in visionObjects)
         {
-            if(visionColliders[i].CompareTag("Sheep") && visionColliders[i].gameObject != sheepTransform.gameObject)
+            if(go != sheepTransform.gameObject)
             {
-                float distance = Vector3.Distance(sheepTransform.position, visionColliders[i].transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestSheep = visionColliders[i].transform.position;
-                }
+                meanPosition += go.transform.position;
             }
         }
+        meanPosition /= visionObjects.Count;
 
-        if(visionColliders.Length > 1)
-        {
-            sheepAgent.SetDestination(closestSheep);
-        }
+        sheepAgent.SetDestination(meanPosition);
+        Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
 
-        // if enough sheeps in follow, back to idle
-        Collider[] followColliders = Physics.OverlapSphere(followRadius.GetPosition(), followRadius.GetRadius());
-        int numberOfSheepsInRadius = 0;
-        for (int i = 0; i < followColliders.Length; i++)
-        {
-            if (followColliders[i].CompareTag("Sheep") && followColliders[i].gameObject != sheepTransform.gameObject)
-                numberOfSheepsInRadius++;
-        }
 
-        if(numberOfSheepsInRadius >= numberOfSheepsRequired)
+        // if at least one is in wanderRadius, go to idle
+        List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
+        if(wanderObjects.Count > numberOfSheepsRequired)
         {
             animator.SetBool("isFollowing", false);
             animator.SetBool("isIdling", true);
+        }
+
+        // if no one in sight, go to wander
+        if(visionObjects.Count == 1)
+        {
+            animator.SetBool("isFollowing", false);
+            animator.SetBool("isWandering", true);
         }
     }
     
