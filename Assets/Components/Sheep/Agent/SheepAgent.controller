@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9df89765f6ceb4da884c7fc0000fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequencyCheck: 100
 --- !u!114 &-8172296974028540154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,7 +484,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.75
-  m_HasExitTime: 0
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
