@@ -13,9 +13,9 @@ public class FollowBehaviour : StateMachineBehaviour
     private CustomCollider followRadius = null;
     private CustomCollider wanderRadius = null;
 
-    [Header("Follow state")]
     [SerializeField]
-    private int numberOfSheepsRequired = 2;
+    private float decisionTimer = 60;
+    private float currentTimer = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -53,32 +53,42 @@ public class FollowBehaviour : StateMachineBehaviour
         if (followRadius == null) followRadius = sensors.followCollider;
         if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
 
-
-        Debug.Log(sheepTransform.name + " entered FOLLOW");
+        //Debug.Log(sheepTransform.name + " entered FOLLOW");
+        currentTimer = decisionTimer;
     }
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // move at the mean position of all sheeps in visionRadius
         List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
-
-        Vector3 meanPosition = sheepTransform.position;
-        foreach(GameObject go in visionObjects)
-        {
-            if(go != sheepTransform.gameObject)
-            {
-                meanPosition += go.transform.position;
-            }
-        }
-        meanPosition /= visionObjects.Count;
-
-        sheepAgent.SetDestination(meanPosition);
-        Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
-
-
-        // if at least one is in wanderRadius, go to idle
         List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
-        if(wanderObjects.Count > numberOfSheepsRequired)
+
+        if (currentTimer == decisionTimer)
+        {
+            // move to the farest sheep
+            float distance = 0;
+            Vector3 farestPos = sheepTransform.position;
+            foreach (GameObject go in visionObjects)
+            {
+                if (go != sheepTransform.gameObject)
+                {
+                    float temp = Vector3.Distance(sheepTransform.position, go.transform.position);
+
+                    if (temp > distance)
+                    {
+                        distance = temp;
+                        farestPos = go.transform.position;
+                    }
+                }
+            }
+
+            sheepAgent.SetDestination(farestPos);
+            Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
+
+            currentTimer = 0;
+        }
+
+        // if there are the same amount of sheep in wander than in vision, then go to idle
+        if(wanderObjects.Count == visionObjects.Count)
         {
             animator.SetBool("isFollowing", false);
             animator.SetBool("isIdling", true);
@@ -90,6 +100,8 @@ public class FollowBehaviour : StateMachineBehaviour
             animator.SetBool("isFollowing", false);
             animator.SetBool("isWandering", true);
         }
+
+        currentTimer++;
     }
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276aad6e2833c5d4597fbd21a05d93f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 45
+  turnRate: 30
   movementDistance: 2
   frequency: 300
   numberOfSheepsRequired: 1

@@ -64,7 +64,7 @@ public class WanderBehaviour : StateMachineBehaviour
 
         currentStep = 0;
 
-        Debug.Log(sheepTransform.name + " entered WANDER");
+        //Debug.Log(sheepTransform.name + " entered WANDER");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

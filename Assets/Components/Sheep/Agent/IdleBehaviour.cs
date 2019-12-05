@@ -22,10 +22,6 @@ public class IdleBehaviour : StateMachineBehaviour
     private int frequency = 100;
     private int currentStep = 0;
 
-    [Header("Follow state")]
-    [SerializeField]
-    private int numberOfSheepsRequired = 3;
-
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if(sheepAgent == null)
@@ -66,9 +62,9 @@ public class IdleBehaviour : StateMachineBehaviour
 
         currentStep = Random.Range(0, frequency);
 
-        sheepAgent.SetDestination(sheepTransform.position);
+        //sheepAgent.isStopped = true;
 
-        Debug.Log(sheepTransform.name + " entered IDLE");
+        //Debug.Log(sheepTransform.name + " entered IDLE");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -102,6 +98,7 @@ public class IdleBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        //sheepAgent.isStopped = false;
 
     }
 }
