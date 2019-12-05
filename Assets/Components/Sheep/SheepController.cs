@@ -65,12 +65,12 @@ public class SheepController : MonoBehaviour
 
 
 
-    void SheepSelector_OnSelection()
+    void SheepSelector_OnSelection(SheepSelector s)
     {
         Debug.Log("[Sheep] OnSelection: " + name);
     }
 
-    void SheepSelector_OnDeselection()
+    void SheepSelector_OnDeselection(SheepSelector s)
     {
         Debug.Log("[Sheep] OnDeselection: " + name);
     }
@@ -83,6 +83,5 @@ public class SheepController : MonoBehaviour
         currentMovePosition = pos;
 
         agent.SetBool("isFollowingOrder", true);
-
     }
 }

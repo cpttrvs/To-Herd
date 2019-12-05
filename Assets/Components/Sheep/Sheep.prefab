@@ -1593,7 +1593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9f0a59ec033344a96593c6252158c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
+  radius: 9
   center: {x: 0, y: 0, z: 0}
   color: {r: 0.4575472, g: 0.56718194, b: 1, a: 1}
 --- !u!1 &7964496839790396088

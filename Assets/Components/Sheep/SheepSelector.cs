@@ -7,8 +7,8 @@ public class SheepSelector : MonoBehaviour
 {
     public bool isSelected = false;
 
-    public Action OnSelection;
-    public Action OnDeselection;
+    public Action<SheepSelector> OnSelection;
+    public Action<SheepSelector> OnDeselection;
 
     public Action<Vector3> OnMoveOrder;
 
@@ -16,14 +16,14 @@ public class SheepSelector : MonoBehaviour
     {
         //Debug.Log("SELECTED");
         isSelected = true;
-        OnSelection?.Invoke();
+        OnSelection?.Invoke(this);
     }
 
     public void Deselect()
     {
         //Debug.Log("DESELECTED");
         isSelected = false;
-        OnDeselection?.Invoke();
+        OnDeselection?.Invoke(this);
     }
 
     public void Move(Vector3 pos)

@@ -49,8 +49,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
         if (visionRadius == null) visionRadius = sensors.visionCollider;
         if (followRadius == null) followRadius = sensors.followCollider;
         if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
-
-        sheepAgent.isStopped = false;
+        
     }
 
 
