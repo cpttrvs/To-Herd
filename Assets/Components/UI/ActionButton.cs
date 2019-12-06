@@ -11,6 +11,7 @@ public class ActionButton : MonoBehaviour
     private SheepSelector[] selectors = null;
 
     protected SheepSelector currentSheep = null;
+    
 
     private void Awake()
     {
@@ -45,7 +46,6 @@ public class ActionButton : MonoBehaviour
 
     protected virtual void Button_OnClick()
     {
-
     }
 
     void Sheep_OnSelection(SheepSelector s)

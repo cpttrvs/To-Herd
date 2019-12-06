@@ -67,7 +67,8 @@ public class FleeBehaviour : StateMachineBehaviour
             meanPosition /= enemies.Count;
             Vector3 oppositePosition = sheepTransform.position + (sheepTransform.position - meanPosition);
 
-            sheepAgent.SetDestination(oppositePosition);
+            if (sheepAgent.isActiveAndEnabled)
+                sheepAgent.SetDestination(oppositePosition);
 
             Debug.DrawLine(sheepTransform.position, oppositePosition, Color.magenta);
         } else

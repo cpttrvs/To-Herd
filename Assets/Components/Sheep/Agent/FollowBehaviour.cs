@@ -86,28 +86,38 @@ public class FollowBehaviour : StateMachineBehaviour
                 {
                     if (go != sheepTransform.gameObject)
                     {
-                        if (closeObjects.Contains(go))
+                        if(go.GetComponentInChildren<SheepController>().IsFollowingOrder())
                         {
-                            for (int i = 0; i < closeWeight; i++)
+                            Debug.Log("FOLLOWING " + go.name);
+                            //prioritize the sheep following an order
+                            meanPos += go.transform.position;
+                            nbVision++;
+                            break;
+                        } else
+                        {
+                            if (closeObjects.Contains(go))
                             {
-                                meanPos += (go.transform.position);
-                                nbClose++;
+                                for (int i = 0; i < closeWeight; i++)
+                                {
+                                    meanPos += (go.transform.position);
+                                    nbClose++;
+                                }
                             }
-                        }
-                        else if (mediumObjects.Contains(go))
-                        {
-                            for (int i = 0; i < mediumWeight; i++)
+                            else if (mediumObjects.Contains(go))
                             {
-                                meanPos += (go.transform.position);
-                                nbMedium++;
+                                for (int i = 0; i < mediumWeight; i++)
+                                {
+                                    meanPos += (go.transform.position);
+                                    nbMedium++;
+                                }
                             }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < visionWeight; i++)
+                            else
                             {
-                                meanPos += (go.transform.position);
-                                nbVision++;
+                                for (int i = 0; i < visionWeight; i++)
+                                {
+                                    meanPos += (go.transform.position);
+                                    nbVision++;
+                                }
                             }
                         }
                     }
@@ -121,7 +131,8 @@ public class FollowBehaviour : StateMachineBehaviour
                 {
                     meanPos /= (nbClose + nbMedium + nbVision);
 
-                    sheepAgent.SetDestination(meanPos);
+                    if (sheepAgent.isActiveAndEnabled)
+                        sheepAgent.SetDestination(meanPos);
 
                     Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
 

@@ -15,7 +15,9 @@ public class SheepController : MonoBehaviour
     private Animator agent = null;
 
     private bool isDead = false;
-    
+
+    private bool isMoving = false;
+
     private Vector3 lastPosition = Vector3.zero;
 
     private void Start()
@@ -43,10 +45,12 @@ public class SheepController : MonoBehaviour
             if (lastPosition != transform.position)
             {
                 animator.SetBool("isMoving", true);
+                isMoving = true;
             }
             else
             {
                 animator.SetBool("isMoving", false);
+                isMoving = false;
             }
 
             lastPosition = transform.position;
@@ -122,4 +126,32 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowingOrder", false);
         }
     }
+
+    public void StopLookOut()
+    {
+        if (!isDead)
+        {
+            Debug.Log("[Sheep] Stop LookOut " + name);
+
+            agent.SetBool("isLookingOut", false);
+            agent.SetBool("isIdling", true);
+            agent.SetBool("isFollowingOrder", false);
+            agent.SetBool("isFollowing", false);
+        }
+    }
+
+    public void StopFollow()
+    {
+        if (!isDead)
+        {
+            Debug.Log("[Sheep] Stop Follow " + name);
+
+            agent.SetBool("isFollowing", false);
+            agent.SetBool("isLookingOut", false);
+            agent.SetBool("isIdling", true);
+            agent.SetBool("isFollowingOrder", false);
+        }
+    }
+
+    public bool IsFollowingOrder() { return agent.GetBool("isFollowingOrder"); }
 }

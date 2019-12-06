@@ -81,7 +81,8 @@ public class IdleBehaviour : StateMachineBehaviour
 
             sheepTransform.Rotate(Vector3.up, angle);
 
-            sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
+            if (sheepAgent.isActiveAndEnabled)
+                sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
 
             Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
         }

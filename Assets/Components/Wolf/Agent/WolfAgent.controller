@@ -53,9 +53,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4973eb056002cf14a8eed5014f8cdb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 30
-  movementDistance: 2
-  frequency: 1
+  turnRate: 180
+  movementDistance: 6
+  frequency: 150
   numberOfSheepsToFlee: 3
 --- !u!1101 &-7792367495846016949
 AnimatorStateTransition:
