@@ -14,7 +14,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Wolf
-    second: {fileID: -2355207214692603148, guid: 1e30968b1a6cd874e83621a142f4e75e,
+    second: {fileID: -4770390735465466038, guid: 5b0ae5fa3e4e26d47a0b6bca8c0d7bce,
       type: 3}
   materials:
     importMaterials: 1

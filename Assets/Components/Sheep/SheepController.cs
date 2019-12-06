@@ -67,5 +67,28 @@ public class SheepController : MonoBehaviour
         Debug.DrawLine(transform.position, pos, Color.red);
 
         agent.SetBool("isFollowingOrder", true);
+        agent.SetBool("isIdling", false);
+        agent.SetBool("isFollowing", false);
+        agent.SetBool("isLookingOut", false);
+    }
+
+    public void LookOut()
+    {
+        Debug.Log("[Sheep] LookOut " + name);
+
+        agent.SetBool("isLookingOut", true);
+        agent.SetBool("isIdling", false);
+        agent.SetBool("isFollowingOrder", false);
+        agent.SetBool("isFollowing", false);
+    }
+
+    public void Follow()
+    {
+        Debug.Log("[Sheep] Follow " + name);
+
+        agent.SetBool("isFollowing", true);
+        agent.SetBool("isLookingOut", false);
+        agent.SetBool("isIdling", false);
+        agent.SetBool("isFollowingOrder", false);
     }
 }

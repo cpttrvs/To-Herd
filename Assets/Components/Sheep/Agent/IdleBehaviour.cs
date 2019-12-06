@@ -10,8 +10,8 @@ public class IdleBehaviour : StateMachineBehaviour
     private NavMeshAgent sheepAgent = null;
 
     private CustomCollider visionRadius = null;
-    private CustomCollider followRadius = null;
-    private CustomCollider wanderRadius = null;
+    private CustomCollider mediumRadius = null;
+    private CustomCollider closeRadius = null;
 
     [Header("Realistic idle")]
     [SerializeField]
@@ -58,9 +58,9 @@ public class IdleBehaviour : StateMachineBehaviour
 
         if (visionRadius == null) visionRadius = sensors.visionCollider;
 
-        if (followRadius == null) followRadius = sensors.followCollider;
+        if (mediumRadius == null) mediumRadius = sensors.mediumCollider;
 
-        if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
+        if (closeRadius == null) closeRadius = sensors.closeCollider;
 
         currentStep = Random.Range(0, frequency);
 
@@ -72,40 +72,21 @@ public class IdleBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // detect enemy
-        List<GameObject> enemies = visionRadius.GetAllColliders("Enemy");
-        if(enemies.Count > 0)
+        // realistic idle
+        currentStep++;
+        if (currentStep == frequency)
         {
-            animator.SetBool("isIdling", false);
-            animator.SetBool("isFleeing", true);
-        } else
-        {
-            // realistic idle
-            currentStep++;
-            if (currentStep == frequency)
-            {
-                currentStep = 0;
+            currentStep = 0;
 
-                float angle = Random.Range(-turnRate, turnRate);
+            float angle = Random.Range(-turnRate, turnRate);
 
-                sheepTransform.Rotate(Vector3.up, angle);
+            sheepTransform.Rotate(Vector3.up, angle);
 
-                sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
+            sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
 
-                Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
-            }
-
-            // if there are more sheeps in vision than in wander, go to follow
-            List<GameObject> wanderObjects = wanderRadius.GetAllColliders("Sheep");
-            List<GameObject> followObjects = followRadius.GetAllColliders("Sheep");
-            List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
-
-            if (visionObjects.Count > wanderObjects.Count)
-            {
-                animator.SetBool("isIdling", false);
-                animator.SetBool("isFollowing", true);
-            }
+            Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
         }
+        
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

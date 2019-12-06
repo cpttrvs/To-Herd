@@ -5,6 +5,6 @@ using UnityEngine;
 public class SensorsLinker : MonoBehaviour
 {
     public CustomCollider visionCollider;
-    public CustomCollider followCollider;
-    public CustomCollider wanderCollider;
+    public CustomCollider mediumCollider;
+    public CustomCollider closeCollider;
 }

@@ -12,6 +12,9 @@ public class SheepSelector : MonoBehaviour
 
     public Action<Vector3> OnMoveOrder;
 
+    [SerializeField]
+    private SheepController _controller;
+
     public void Select()
     {
         //Debug.Log("SELECTED");
@@ -31,4 +34,6 @@ public class SheepSelector : MonoBehaviour
         //Debug.Log("MOVE:" + pos);
         OnMoveOrder?.Invoke(pos);
     }
+
+    public SheepController GetController() { return _controller; }
 }

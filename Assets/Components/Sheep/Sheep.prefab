@@ -661,6 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  _controller: {fileID: 1373921202547741167}
 --- !u!1 &1373921201817012233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,8 +1175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visionCollider: {fileID: 7479434168755709879}
-  followCollider: {fileID: 2967464940245423683}
-  wanderCollider: {fileID: 8787013274309721470}
+  mediumCollider: {fileID: 2967464940245423683}
+  closeCollider: {fileID: 8787013274309721470}
 --- !u!135 &1353548248232961741
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-public class FollowOrderBehaviour : StateMachineBehaviour
+public class LookOutBehaviour : StateMachineBehaviour
 {
     private SensorsLinker sensors = null;
     private Transform sheepTransform = null;
@@ -13,11 +12,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
     private CustomCollider visionRadius = null;
     private CustomCollider mediumRadius = null;
     private CustomCollider closeRadius = null;
-
-    [SerializeField]
-    private int frequencyCheck = 100;
-    private int currentTimer = 0;
-    private Vector3 previousPos = Vector3.zero;
+    
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -27,7 +22,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sheepAgent == null)
             {
-                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no nav mesh agent found");
+                Debug.LogError("[LookOutBehaviour] OnStateEnter: no nav mesh agent found");
             }
         }
 
@@ -37,7 +32,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sensors == null)
             {
-                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no sensors linker found");
+                Debug.LogError("[LookOutBehaviour] OnStateEnter: no sensors linker found");
             }
         }
 
@@ -47,44 +42,37 @@ public class FollowOrderBehaviour : StateMachineBehaviour
 
             if (sheepTransform == null)
             {
-                Debug.LogError("[FollowOrderBehaviour] OnStateEnter: no sheep transform found");
+                Debug.LogError("[LookOutBehaviour] OnStateEnter: no sheep transform found");
             }
         }
 
         if (visionRadius == null) visionRadius = sensors.visionCollider;
         if (mediumRadius == null) mediumRadius = sensors.mediumCollider;
         if (closeRadius == null) closeRadius = sensors.closeCollider;
-
-        previousPos = sheepTransform.position;
-        currentTimer = 0;
     }
-
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(sheepAgent.destination == sheepTransform.position)
+        //immobilised, will face mean pos of enemies in range
+
+        List<GameObject> visionObjects = visionRadius.GetAllColliders("Enemy");
+
+        if(visionObjects.Count > 0)
         {
-            animator.SetBool("isFollowingOrder", false);
-        } else
-        {
-            currentTimer++;
-            if (currentTimer == frequencyCheck)
+            Vector3 meanPos = Vector3.zero;
+            foreach (GameObject go in visionObjects)
             {
-                if (sheepTransform.position == previousPos)
-                {
-                    Debug.Log("[FollowOrderBehaviour] Same position, sanity check");
-                    animator.SetBool("isFollowingOrder", false);
-                }
-
-                currentTimer = 0;
+                meanPos += go.transform.position;
             }
-        }
+            meanPos /= visionObjects.Count;
 
-        previousPos = sheepTransform.position;
+            sheepTransform.LookAt(meanPos); //TODO: lerp
+
+            Debug.DrawLine(sheepTransform.position, meanPos, Color.magenta);
+        }
     }
-    
+
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        sheepAgent.ResetPath();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PointerController : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class PointerController : MonoBehaviour
     private LayerMask selectionLayer = 0;
     [SerializeField]
     private LayerMask terrainLayer = 0;
+    [SerializeField]
+    private LayerMask uiLayer = 0;
 
     [SerializeField]
     private SheepSelector currentSelectedSheep = null;
@@ -27,7 +31,12 @@ public class PointerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log("left");
-            SelectSheep();
+
+            //prevent clicking on UI
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                SelectSheep();
+            }
         }
 
         if (Input.GetMouseButtonDown(1))

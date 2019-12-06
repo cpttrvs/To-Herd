@@ -10,8 +10,8 @@ public class FleeBehaviour : StateMachineBehaviour
     private NavMeshAgent sheepAgent = null;
 
     private CustomCollider visionRadius = null;
-    private CustomCollider followRadius = null;
-    private CustomCollider wanderRadius = null;
+    private CustomCollider mediumRadius = null;
+    private CustomCollider closeRadius = null;
     
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -47,8 +47,8 @@ public class FleeBehaviour : StateMachineBehaviour
         }
 
         if (visionRadius == null) visionRadius = sensors.visionCollider;
-        if (followRadius == null) followRadius = sensors.followCollider;
-        if (wanderRadius == null) wanderRadius = sensors.wanderCollider;
+        if (mediumRadius == null) mediumRadius = sensors.mediumCollider;
+        if (closeRadius == null) closeRadius = sensors.closeCollider;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
