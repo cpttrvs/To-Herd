@@ -66,65 +66,71 @@ public class FollowBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
-
-        if(visionObjects.Count > 1)
+        if(currentTimer % decisionTimer == 0)
         {
-            List<GameObject> mediumObjects = mediumRadius.GetAllColliders("Sheep");
-            List<GameObject> closeObjects = closeRadius.GetAllColliders("Sheep");
+            List<GameObject> visionObjects = visionRadius.GetAllColliders("Sheep");
 
-            // mean position from every sheeps in vision
-            // weighted position depending on radius
-
-            Vector3 meanPos = Vector3.zero;
-            int nbClose = 0;
-            int nbMedium = 0;
-            int nbVision = 0;
-            foreach (GameObject go in visionObjects)
+            if (visionObjects.Count > 1)
             {
-                if(go != sheepTransform.gameObject)
+                List<GameObject> mediumObjects = mediumRadius.GetAllColliders("Sheep");
+                List<GameObject> closeObjects = closeRadius.GetAllColliders("Sheep");
+
+                // mean position from every sheeps in vision
+                // weighted position depending on radius
+
+                Vector3 meanPos = Vector3.zero;
+                int nbClose = 0;
+                int nbMedium = 0;
+                int nbVision = 0;
+                foreach (GameObject go in visionObjects)
                 {
-                    if (closeObjects.Contains(go))
+                    if (go != sheepTransform.gameObject)
                     {
-                        for(int i = 0; i < closeWeight; i++)
+                        if (closeObjects.Contains(go))
                         {
-                            meanPos += (go.transform.position);
-                            nbClose++;
+                            for (int i = 0; i < closeWeight; i++)
+                            {
+                                meanPos += (go.transform.position);
+                                nbClose++;
+                            }
                         }
-                    }
-                    else if (mediumObjects.Contains(go))
-                    {
-                        for (int i = 0; i < mediumWeight; i++)
+                        else if (mediumObjects.Contains(go))
                         {
-                            meanPos += (go.transform.position);
-                            nbMedium++;
+                            for (int i = 0; i < mediumWeight; i++)
+                            {
+                                meanPos += (go.transform.position);
+                                nbMedium++;
+                            }
                         }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < visionWeight; i++)
+                        else
                         {
-                            meanPos += (go.transform.position);
-                            nbVision++;
+                            for (int i = 0; i < visionWeight; i++)
+                            {
+                                meanPos += (go.transform.position);
+                                nbVision++;
+                            }
                         }
                     }
                 }
-            }
 
-            int total = nbClose + nbMedium + nbVision;
+                int total = nbClose + nbMedium + nbVision;
 
-            Debug.Log("follow: " + nbClose + " " + nbMedium + " " + nbVision);
+                Debug.Log("follow: " + nbClose + " " + nbMedium + " " + nbVision);
 
-            if(total > 0)
-            {
-                meanPos /= (nbClose + nbMedium + nbVision);
+                if (total > 0)
+                {
+                    meanPos /= (nbClose + nbMedium + nbVision);
 
-                sheepAgent.SetDestination(meanPos);
+                    sheepAgent.SetDestination(meanPos);
 
-                Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
+                    Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
+
+                    currentTimer = 0;
+                }
             }
 
         }
+        currentTimer++;
     }
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

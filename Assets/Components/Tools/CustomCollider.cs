@@ -6,13 +6,13 @@ using System;
 public class CustomCollider : MonoBehaviour
 {
     [SerializeField]
-    private float radius;
+    private float radius = 1f;
 
     [SerializeField]
-    private Vector3 center;
+    private Vector3 center = Vector3.zero;
 
     [SerializeField]
-    private Color color;
+    private Color color = Color.white;
 
     private void OnDrawGizmosSelected()
     {

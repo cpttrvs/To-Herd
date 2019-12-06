@@ -22,7 +22,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7055130361298753953, guid: 1a52e9e085e187d4cb38c1fb4cdf1021,
+  m_Motion: {fileID: -7055130361298753953, guid: 2404e5bd3b53ccd43a8ccc2a3658f786,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -40,7 +40,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 8784960428281141800}
-    m_Position: {x: 290, y: 50, z: 0}
+    m_Position: {x: 290, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6124461252134301862}
     m_Position: {x: 310, y: 170, z: 0}
@@ -68,6 +68,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isBiting
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isMoving
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6124461252134301862}
   m_Solo: 0
@@ -92,6 +95,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: isBiting
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isIdling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6554995352628184158}
@@ -123,6 +129,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: isBiting
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: isIdling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -177,6 +189,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isBiting
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMoving
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6554995352628184158}
   m_Solo: 0
@@ -201,6 +216,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: isMoving
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isIdling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8784960428281141800}
@@ -252,8 +270,11 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isIdling
+    m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isMoving
+    m_ConditionEvent: isBiting
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8784960428281141800}
@@ -291,7 +312,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3226448040575204656, guid: 1a52e9e085e187d4cb38c1fb4cdf1021,
+  m_Motion: {fileID: -3226448040575204656, guid: 2404e5bd3b53ccd43a8ccc2a3658f786,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

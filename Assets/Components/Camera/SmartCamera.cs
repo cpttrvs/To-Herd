@@ -12,7 +12,7 @@ public class SmartCamera : MonoBehaviour
     [SerializeField]
     private float smoothSpeed = 0.125f;
     [SerializeField]
-    private Vector3 offset;
+    private Vector3 offset = Vector3.zero;
 
     private void Awake()
     {

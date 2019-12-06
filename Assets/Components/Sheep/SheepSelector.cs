@@ -13,7 +13,7 @@ public class SheepSelector : MonoBehaviour
     public Action<Vector3> OnMoveOrder;
 
     [SerializeField]
-    private SheepController _controller;
+    private SheepController _controller = null;
 
     public void Select()
     {

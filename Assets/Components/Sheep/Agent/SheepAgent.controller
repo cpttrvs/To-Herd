@@ -190,9 +190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decisionTimer: 60
-  closeWeight: 0.5
-  mediumWeight: 0.75
-  visionWeight: 1
+  closeWeight: 0
+  mediumWeight: 2
+  visionWeight: 4
 --- !u!1107 &-460149433821503515
 AnimatorStateMachine:
   serializedVersion: 5

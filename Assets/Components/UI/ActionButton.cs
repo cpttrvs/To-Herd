@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ActionButton : MonoBehaviour
 {
     [SerializeField]
-    private Button button;
+    private Button button = null;
 
     private SheepSelector[] selectors = null;
 

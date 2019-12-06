@@ -10,9 +10,9 @@ public class SheepController : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navMeshAgent = null;
     [SerializeField]
-    private Animator animator;
+    private Animator animator = null;
     [SerializeField]
-    private Animator agent;
+    private Animator agent = null;
     
     private Vector3 lastPosition = Vector3.zero;
 

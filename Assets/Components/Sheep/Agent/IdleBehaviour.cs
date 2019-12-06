@@ -20,8 +20,6 @@ public class IdleBehaviour : StateMachineBehaviour
     private float movementDistance = 2;
     [SerializeField]
     private int frequency = 100;
-    [SerializeField]
-    private int variation = 50;
     private int currentStep = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
