@@ -11,19 +11,24 @@ public class FollowToggle : ActionToggle
 
         Debug.Log("ONVALUECHANGED");
 
-        if(value)
+        if(currentSheep != null)
         {
-            if (currentSheep.IsLookingOut())
+            if (value)
             {
-                Debug.Log("STOP LOOK OUT");
-                currentSheep.StopLookOut();
-            }
+                if (currentSheep.IsLookingOut())
+                {
+                    Debug.Log("STOP LOOK OUT");
+                    currentSheep.StopLookOut();
+                }
 
-            currentSheep.Follow();
-        } else
-        {
-            currentSheep.StopFollow();
+                currentSheep.Follow();
+            }
+            else
+            {
+                currentSheep.StopFollow();
+            }
         }
+
     }
 
     protected override void Sheep_OnSelection(SheepSelector s)

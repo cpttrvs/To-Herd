@@ -16,6 +16,8 @@ public class WolfChaseBehaviour : StateMachineBehaviour
     [Header("Flee")]
     [SerializeField]
     private int numberOfSheepsToFlee = 3;
+    [SerializeField]
+    private float angle = 10f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -90,8 +92,17 @@ public class WolfChaseBehaviour : StateMachineBehaviour
                 }
             }
 
-            List<GameObject> mediumObjects = mediumRadius.GetAllColliders("Sheep");
-            if(mediumObjects.Count >= numberOfSheepsToFlee)
+            // if the number of sheeps is facing it, flee
+            int nbOfSheepsFacing = 0;
+            foreach(GameObject go in visionObjects)
+            {
+                if(Vector3.Angle(go.transform.forward, wolfTransform.position - go.transform.position) < angle)
+                {
+                    nbOfSheepsFacing++;
+                }
+            }
+
+            if(nbOfSheepsFacing >= numberOfSheepsToFlee)
             {
                 animator.SetBool("isChasing", false);
                 animator.SetBool("isFleeing", true);

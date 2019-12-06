@@ -8,19 +8,23 @@ public class LookOutToggle : ActionToggle
     {
         base.Toggle_OnValueChanged(value);
 
-        if (value)
+        if(currentSheep != null)
         {
-            if (currentSheep.IsFollowing())
+            if (value)
             {
-                currentSheep.StopFollow();
-            }
+                if (currentSheep.IsFollowing())
+                {
+                    currentSheep.StopFollow();
+                }
 
-            currentSheep.LookOut();
+                currentSheep.LookOut();
+            }
+            else
+            {
+                currentSheep.StopLookOut();
+            }
         }
-        else
-        {
-            currentSheep.StopLookOut();
-        }
+
     }
 
     protected override void Sheep_OnSelection(SheepSelector s)

@@ -15,9 +15,16 @@ public class SheepController : MonoBehaviour
     [SerializeField]
     private Animator agent = null;
 
+    [SerializeField]
+    private GameObject followPlane = null;
+    [SerializeField]
+    private GameObject lookOutPlane = null;
+
     private bool isDead = false;
 
     private bool isMoving = false;
+
+    private bool isSelected = false;
 
     private Vector3 lastPosition = Vector3.zero;
 
@@ -83,11 +90,26 @@ public class SheepController : MonoBehaviour
     void SheepSelector_OnSelection(SheepSelector s)
     {
         Debug.Log("[Sheep] OnSelection: " + name);
+        isSelected = true;
+
+        if(IsFollowing())
+        {
+            followPlane.SetActive(true);
+        }
+
+        if(IsLookingOut())
+        {
+            lookOutPlane.SetActive(true);
+        }
     }
 
     void SheepSelector_OnDeselection(SheepSelector s)
     {
         Debug.Log("[Sheep] OnDeselection: " + name);
+        isSelected = false;
+
+        lookOutPlane.SetActive(false);
+        followPlane.SetActive(false);
     }
 
     void SheepSelector_OnMoveOrder(Vector3 pos)
@@ -122,6 +144,11 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowing", false);
 
             OnLookOut?.Invoke();
+
+            if(isSelected)
+            {
+                lookOutPlane.SetActive(true);
+            }
         }
     }
 
@@ -137,6 +164,11 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowingOrder", false);
 
             OnFollow?.Invoke();
+
+            if (isSelected)
+            {
+                followPlane.SetActive(true);
+            }
         }
     }
 
@@ -152,6 +184,11 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowing", false);
 
             OnStopLookOut?.Invoke();
+
+            if(isSelected)
+            {
+                lookOutPlane.SetActive(false);
+            }
         }
     }
 
@@ -167,6 +204,11 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowingOrder", false);
 
             OnStopFollow?.Invoke();
+
+            if(isSelected)
+            {
+                followPlane.SetActive(false);
+            }
         }
     }
 
