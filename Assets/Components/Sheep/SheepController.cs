@@ -15,11 +15,6 @@ public class SheepController : MonoBehaviour
     [SerializeField]
     private Animator agent = null;
 
-    [SerializeField]
-    private GameObject followPlane = null;
-    [SerializeField]
-    private GameObject lookOutPlane = null;
-
     private bool isDead = false;
 
     private bool isMoving = false;
@@ -32,6 +27,9 @@ public class SheepController : MonoBehaviour
     public Action OnStopFollow;
     public Action OnLookOut;
     public Action OnStopLookOut;
+    public Action OnSelect;
+    public Action OnDeselect;
+    public Action OnMoveOrder;
 
     private void Start()
     {
@@ -91,25 +89,14 @@ public class SheepController : MonoBehaviour
     {
         Debug.Log("[Sheep] OnSelection: " + name);
         isSelected = true;
-
-        if(IsFollowing())
-        {
-            followPlane.SetActive(true);
-        }
-
-        if(IsLookingOut())
-        {
-            lookOutPlane.SetActive(true);
-        }
+        OnSelect?.Invoke();
     }
 
     void SheepSelector_OnDeselection(SheepSelector s)
     {
         Debug.Log("[Sheep] OnDeselection: " + name);
         isSelected = false;
-
-        lookOutPlane.SetActive(false);
-        followPlane.SetActive(false);
+        OnDeselect?.Invoke();
     }
 
     void SheepSelector_OnMoveOrder(Vector3 pos)
@@ -125,6 +112,8 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowing", false);
             agent.SetBool("isLookingOut", false);
             agent.SetBool("isFollowingOrder", true);
+
+            OnMoveOrder?.Invoke();
 
             navMeshAgent.SetDestination(pos);
             Debug.DrawLine(transform.position, pos, Color.red);
@@ -144,11 +133,6 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowing", false);
 
             OnLookOut?.Invoke();
-
-            if(isSelected)
-            {
-                lookOutPlane.SetActive(true);
-            }
         }
     }
 
@@ -164,11 +148,6 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowingOrder", false);
 
             OnFollow?.Invoke();
-
-            if (isSelected)
-            {
-                followPlane.SetActive(true);
-            }
         }
     }
 
@@ -184,11 +163,6 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowing", false);
 
             OnStopLookOut?.Invoke();
-
-            if(isSelected)
-            {
-                lookOutPlane.SetActive(false);
-            }
         }
     }
 
@@ -204,15 +178,11 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isFollowingOrder", false);
 
             OnStopFollow?.Invoke();
-
-            if(isSelected)
-            {
-                followPlane.SetActive(false);
-            }
         }
     }
 
     public bool IsFollowingOrder() { return agent.GetBool("isFollowingOrder"); }
     public bool IsFollowing() { return agent.GetBool("isFollowing"); }
     public bool IsLookingOut() { return agent.GetBool("isLookingOut"); }
+    public bool IsSelected() { return isSelected; }
 }

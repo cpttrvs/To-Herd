@@ -367,8 +367,6 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1373921202547741160}
   animator: {fileID: 7424172997498871110}
   agent: {fileID: 4855207392238672307}
-  followPlane: {fileID: 8433452791942858229}
-  lookOutPlane: {fileID: 1150981175553036069}
 --- !u!195 &1373921202547741160
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1149,6 +1147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3254273012295862070}
+  - component: {fileID: 4129445326150726408}
   m_Layer: 0
   m_Name: Sensors
   m_TagString: Untagged
@@ -1175,6 +1174,21 @@ Transform:
   m_Father: {fileID: 1373921202547741166}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4129445326150726408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6164929549289074846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec182bdd90f2129428680d4517d365c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followCircle: {fileID: 8433452791942858229}
+  lookCircle: {fileID: 1150981175553036069}
+  sheepController: {fileID: 1373921202547741167}
 --- !u!1 &6768890473677387526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,7 +1777,7 @@ PrefabInstance:
     - target: {fileID: 5680666267607898846, guid: 3ae8b5ad2b317714f83a2bfe0d8d22b4,
         type: 3}
       propertyPath: m_Name
-      value: LookOutPlane
+      value: LookRadius
       objectReference: {fileID: 0}
     - target: {fileID: 5680666267607898846, guid: 3ae8b5ad2b317714f83a2bfe0d8d22b4,
         type: 3}

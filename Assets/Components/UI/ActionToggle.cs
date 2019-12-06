@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class ActionToggle : MonoBehaviour
 {
     [SerializeField]
-    protected Toggle toggle = null;
+    protected Toggle followToggle = null;
+    [SerializeField]
+    protected Toggle lookToggle = null;
 
     private SheepSelector[] selectors = null;
 
@@ -27,12 +29,14 @@ public class ActionToggle : MonoBehaviour
             selectors[i].OnDeselection += Sheep_OnDeselection;
         }
 
-        toggle.onValueChanged.AddListener(Toggle_OnValueChanged);
+        followToggle.onValueChanged.AddListener(FollowToggle_OnValueChanged);
+        lookToggle.onValueChanged.AddListener(LookToggle_OnValueChanged);
     }
 
     private void OnDestroy()
     {
-        toggle.onValueChanged.RemoveListener(Toggle_OnValueChanged);
+        followToggle.onValueChanged.RemoveListener(FollowToggle_OnValueChanged);
+        lookToggle.onValueChanged.RemoveListener(LookToggle_OnValueChanged);
 
         if (selectors != null)
         {
@@ -44,17 +48,64 @@ public class ActionToggle : MonoBehaviour
         }
     }
 
-    protected virtual void Toggle_OnValueChanged(bool value)
+    protected virtual void FollowToggle_OnValueChanged(bool value)
     {
+        if(currentSheep != null)
+        {
+            if(value)
+            {
+                if (currentSheep.IsLookingOut())
+                    lookToggle.isOn = false;
+
+                currentSheep.Follow();
+            } else
+            {
+                currentSheep.StopFollow();
+            }
+        }
+    }
+
+    protected virtual void LookToggle_OnValueChanged(bool value)
+    {
+        if (currentSheep != null)
+        {
+            if (value)
+            {
+                if (currentSheep.IsFollowing())
+                    followToggle.isOn = false;
+
+                currentSheep.LookOut();
+            }
+            else
+            {
+                currentSheep.StopLookOut();
+            }
+        }
     }
 
     protected virtual void Sheep_OnSelection(SheepSelector s)
     {
         currentSheep = s.GetController();
+
+        if(currentSheep != null)
+        {
+            currentSheep.OnMoveOrder += Sheep_OnMoveOrder;
+
+            followToggle.SetIsOnWithoutNotify(currentSheep.IsFollowing());
+            lookToggle.SetIsOnWithoutNotify(currentSheep.IsLookingOut());
+        }
     }
 
     protected virtual void Sheep_OnDeselection(SheepSelector s)
     {
+        currentSheep.OnMoveOrder -= Sheep_OnMoveOrder;
+
         currentSheep = null;
+    }
+
+    void Sheep_OnMoveOrder()
+    {
+        followToggle.SetIsOnWithoutNotify(currentSheep.IsFollowing());
+        lookToggle.SetIsOnWithoutNotify(currentSheep.IsLookingOut());
     }
 }
