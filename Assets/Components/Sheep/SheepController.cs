@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class SheepController : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class SheepController : MonoBehaviour
     private bool isMoving = false;
 
     private Vector3 lastPosition = Vector3.zero;
+
+    public Action OnFollow;
+    public Action OnStopFollow;
+    public Action OnLookOut;
+    public Action OnStopLookOut;
 
     private void Start()
     {
@@ -90,13 +96,16 @@ public class SheepController : MonoBehaviour
         {
             Debug.Log("[Sheep] OnMove: " + pos + ", " + name);
 
-            navMeshAgent.SetDestination(pos);
-            Debug.DrawLine(transform.position, pos, Color.red);
+            StopLookOut();
+            StopFollow();
 
-            agent.SetBool("isFollowingOrder", true);
             agent.SetBool("isIdling", false);
             agent.SetBool("isFollowing", false);
             agent.SetBool("isLookingOut", false);
+            agent.SetBool("isFollowingOrder", true);
+
+            navMeshAgent.SetDestination(pos);
+            Debug.DrawLine(transform.position, pos, Color.red);
         }
 
     }
@@ -111,6 +120,8 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isIdling", false);
             agent.SetBool("isFollowingOrder", false);
             agent.SetBool("isFollowing", false);
+
+            OnLookOut?.Invoke();
         }
     }
 
@@ -124,6 +135,8 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isLookingOut", false);
             agent.SetBool("isIdling", false);
             agent.SetBool("isFollowingOrder", false);
+
+            OnFollow?.Invoke();
         }
     }
 
@@ -137,6 +150,8 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isIdling", true);
             agent.SetBool("isFollowingOrder", false);
             agent.SetBool("isFollowing", false);
+
+            OnStopLookOut?.Invoke();
         }
     }
 
@@ -150,8 +165,12 @@ public class SheepController : MonoBehaviour
             agent.SetBool("isLookingOut", false);
             agent.SetBool("isIdling", true);
             agent.SetBool("isFollowingOrder", false);
+
+            OnStopFollow?.Invoke();
         }
     }
 
     public bool IsFollowingOrder() { return agent.GetBool("isFollowingOrder"); }
+    public bool IsFollowing() { return agent.GetBool("isFollowing"); }
+    public bool IsLookingOut() { return agent.GetBool("isLookingOut"); }
 }

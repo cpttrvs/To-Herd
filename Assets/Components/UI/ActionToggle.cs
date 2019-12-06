@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ActionButton : MonoBehaviour
+public class ActionToggle : MonoBehaviour
 {
     [SerializeField]
-    private Button button = null;
+    protected Toggle toggle = null;
 
     private SheepSelector[] selectors = null;
 
-    protected SheepSelector currentSheep = null;
+    protected SheepController currentSheep = null;
     
 
     private void Awake()
@@ -27,12 +27,12 @@ public class ActionButton : MonoBehaviour
             selectors[i].OnDeselection += Sheep_OnDeselection;
         }
 
-        button.onClick.AddListener(Button_OnClick);
+        toggle.onValueChanged.AddListener(Toggle_OnValueChanged);
     }
 
     private void OnDestroy()
     {
-        button.onClick.RemoveListener(Button_OnClick);
+        toggle.onValueChanged.RemoveListener(Toggle_OnValueChanged);
 
         if (selectors != null)
         {
@@ -44,17 +44,17 @@ public class ActionButton : MonoBehaviour
         }
     }
 
-    protected virtual void Button_OnClick()
+    protected virtual void Toggle_OnValueChanged(bool value)
     {
     }
 
-    void Sheep_OnSelection(SheepSelector s)
+    protected virtual void Sheep_OnSelection(SheepSelector s)
     {
-        currentSheep = s;
+        currentSheep = s.GetController();
     }
 
-    void Sheep_OnDeselection(SheepSelector s)
+    protected virtual void Sheep_OnDeselection(SheepSelector s)
     {
-
+        currentSheep = null;
     }
 }
