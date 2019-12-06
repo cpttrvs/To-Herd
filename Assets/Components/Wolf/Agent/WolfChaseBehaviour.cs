@@ -80,7 +80,14 @@ public class WolfChaseBehaviour : StateMachineBehaviour
             if(closestSheep != null)
             {
                 wolfAgent.SetDestination(closestSheep.transform.position);
-                Debug.DrawRay(wolfTransform.position, closestSheep.transform.position, Color.red);
+                Debug.DrawRay(wolfTransform.position, wolfAgent.destination, Color.red);
+
+                if(closestSheep.transform.position == wolfTransform.position)
+                {
+                    //considered dead
+                    animator.SetBool("isChasing", false);
+                    animator.SetBool("isIdling", true);
+                }
             }
 
             List<GameObject> mediumObjects = mediumRadius.GetAllColliders("Sheep");

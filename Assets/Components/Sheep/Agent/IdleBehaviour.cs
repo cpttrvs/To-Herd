@@ -62,7 +62,8 @@ public class IdleBehaviour : StateMachineBehaviour
 
         currentStep = Random.Range(0, frequency);
 
-        sheepAgent.ResetPath();
+        if(sheepAgent.isActiveAndEnabled)
+            sheepAgent.ResetPath();
         //sheepAgent.isStopped = true;
 
         //Debug.Log(sheepTransform.name + " entered IDLE");

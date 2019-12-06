@@ -85,6 +85,7 @@ public class FollowOrderBehaviour : StateMachineBehaviour
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        sheepAgent.ResetPath();
+        if (sheepAgent.isActiveAndEnabled)
+            sheepAgent.ResetPath();
     }
 }

@@ -55,8 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnRate: 30
   movementDistance: 2
-  frequency: 100
-  variation: 50
+  frequency: 1
   numberOfSheepsToFlee: 3
 --- !u!1101 &-7792367495846016949
 AnimatorStateTransition:
@@ -291,7 +290,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -5235801775580409241}
-    m_Position: {x: 250, y: 60, z: 0}
+    m_Position: {x: 250, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8341662133019201552}
     m_Position: {x: 100, y: 200, z: 0}

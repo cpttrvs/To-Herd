@@ -13,6 +13,8 @@ public class SheepController : MonoBehaviour
     private Animator animator = null;
     [SerializeField]
     private Animator agent = null;
+
+    private bool isDead = false;
     
     private Vector3 lastPosition = Vector3.zero;
 
@@ -36,15 +38,34 @@ public class SheepController : MonoBehaviour
 
     private void Update()
     {
-        if(lastPosition != transform.position)
+        if(!isDead)
         {
-            animator.SetBool("isMoving", true);
-        } else
-        {
-            animator.SetBool("isMoving", false);
-        }
+            if (lastPosition != transform.position)
+            {
+                animator.SetBool("isMoving", true);
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
+            }
 
-        lastPosition = transform.position;
+            lastPosition = transform.position;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            //dead
+            isDead = true;
+
+            agent.SetBool("isDead", true);
+            animator.SetBool("isDead", true);
+            gameObject.tag = "DeadSheep";
+
+            navMeshAgent.enabled = false;
+        }
     }
 
 
@@ -61,34 +82,44 @@ public class SheepController : MonoBehaviour
 
     void SheepSelector_OnMoveOrder(Vector3 pos)
     {
-        Debug.Log("[Sheep] OnMove: " + pos + ", " + name);
-        
-        navMeshAgent.SetDestination(pos);
-        Debug.DrawLine(transform.position, pos, Color.red);
+        if(!isDead)
+        {
+            Debug.Log("[Sheep] OnMove: " + pos + ", " + name);
 
-        agent.SetBool("isFollowingOrder", true);
-        agent.SetBool("isIdling", false);
-        agent.SetBool("isFollowing", false);
-        agent.SetBool("isLookingOut", false);
+            navMeshAgent.SetDestination(pos);
+            Debug.DrawLine(transform.position, pos, Color.red);
+
+            agent.SetBool("isFollowingOrder", true);
+            agent.SetBool("isIdling", false);
+            agent.SetBool("isFollowing", false);
+            agent.SetBool("isLookingOut", false);
+        }
+
     }
 
     public void LookOut()
     {
-        Debug.Log("[Sheep] LookOut " + name);
+        if(!isDead)
+        {
+            Debug.Log("[Sheep] LookOut " + name);
 
-        agent.SetBool("isLookingOut", true);
-        agent.SetBool("isIdling", false);
-        agent.SetBool("isFollowingOrder", false);
-        agent.SetBool("isFollowing", false);
+            agent.SetBool("isLookingOut", true);
+            agent.SetBool("isIdling", false);
+            agent.SetBool("isFollowingOrder", false);
+            agent.SetBool("isFollowing", false);
+        }
     }
 
     public void Follow()
     {
-        Debug.Log("[Sheep] Follow " + name);
+        if(!isDead)
+        {
+            Debug.Log("[Sheep] Follow " + name);
 
-        agent.SetBool("isFollowing", true);
-        agent.SetBool("isLookingOut", false);
-        agent.SetBool("isIdling", false);
-        agent.SetBool("isFollowingOrder", false);
+            agent.SetBool("isFollowing", true);
+            agent.SetBool("isLookingOut", false);
+            agent.SetBool("isIdling", false);
+            agent.SetBool("isFollowingOrder", false);
+        }
     }
 }
