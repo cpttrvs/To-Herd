@@ -33,9 +33,9 @@ public class SheepController : MonoBehaviour
 
     private void Start()
     {
-        sheepSelector.OnSelection += SheepSelector_OnSelection;
-        sheepSelector.OnDeselection += SheepSelector_OnDeselection;
-        sheepSelector.OnMoveOrder += SheepSelector_OnMoveOrder;
+        //sheepSelector.OnSelection += SheepSelector_OnSelection;
+        //sheepSelector.OnDeselection += SheepSelector_OnDeselection;
+        //sheepSelector.OnMoveOrder += SheepSelector_OnMoveOrder;
 
         animator.SetBool("isMoving", false);
         agent.SetBool("isIdling", true);
@@ -44,9 +44,9 @@ public class SheepController : MonoBehaviour
 
     private void OnDestroy()
     {
-        sheepSelector.OnSelection -= SheepSelector_OnSelection;
-        sheepSelector.OnDeselection -= SheepSelector_OnDeselection;
-        sheepSelector.OnMoveOrder -= SheepSelector_OnMoveOrder;
+        //sheepSelector.OnSelection -= SheepSelector_OnSelection;
+        //sheepSelector.OnDeselection -= SheepSelector_OnDeselection;
+        //sheepSelector.OnMoveOrder -= SheepSelector_OnMoveOrder;
     }
 
     private void Update()

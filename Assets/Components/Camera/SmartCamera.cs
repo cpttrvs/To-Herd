@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SmartCamera : MonoBehaviour
 {
-    SheepSelector[] selectors = null;
+    WolfSelector[] selectors = null;
 
     
-    public GameObject currentSheep = null;
+    public GameObject currentWolf = null;
 
     [SerializeField]
     private float smoothSpeed = 0.125f;
@@ -21,19 +21,19 @@ public class SmartCamera : MonoBehaviour
 
     private void Init()
     {
-        selectors = FindObjectsOfType<SheepSelector>();
+        selectors = FindObjectsOfType<WolfSelector>();
         for(int i = 0; i < selectors.Length; i++)
         {
-            selectors[i].OnSelection += Sheep_OnSelection;
-            selectors[i].OnDeselection += Sheep_OnDeselection;
+            selectors[i].OnSelection += Wolf_OnSelection;
+            selectors[i].OnDeselection += Wolf_OnDeselection;
         }
     }
 
     private void Update()
     {
-        if(currentSheep != null)
+        if(currentWolf != null)
         {
-            Vector3 desiredPosition = currentSheep.transform.position + offset;
+            Vector3 desiredPosition = currentWolf.transform.position + offset;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
         }
@@ -45,18 +45,18 @@ public class SmartCamera : MonoBehaviour
         {
             for (int i = 0; i < selectors.Length; i++)
             {
-                selectors[i].OnSelection -= Sheep_OnSelection;
-                selectors[i].OnDeselection -= Sheep_OnDeselection;
+                selectors[i].OnSelection -= Wolf_OnSelection;
+                selectors[i].OnDeselection -= Wolf_OnDeselection;
             }
         }
     }
 
-    void Sheep_OnSelection(SheepSelector s)
+    void Wolf_OnSelection(WolfSelector s)
     {
-        currentSheep = s.gameObject;
+        currentWolf = s.gameObject;
     }
 
-    void Sheep_OnDeselection(SheepSelector s)
+    void Wolf_OnDeselection(WolfSelector s)
 {
 
     }

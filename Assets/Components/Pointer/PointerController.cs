@@ -16,12 +16,20 @@ public class PointerController : MonoBehaviour
     private LayerMask uiLayer = 0;
 
     [SerializeField]
-    private SheepSelector currentSelectedSheep = null;
+    private WolfSelector currentSelectedWolf = null;
+
+    private WolfSelector[] selectors = null;
     
     void Start()
     {
         cam = Camera.main;
 
+        selectors = FindObjectsOfType<WolfSelector>();
+        for (int i = 0; i < selectors.Length; i++)
+        {
+            selectors[i].OnSelection += Wolf_OnSelection;
+            selectors[i].OnDeselection += Wolf_OnDeselection;
+        }
     }
     
     void Update()
@@ -35,19 +43,28 @@ public class PointerController : MonoBehaviour
             //prevent clicking on UI
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                SelectSheep();
+                SelectWolf();
             }
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             //Debug.Log("right");
-            MoveSheep();
+            MoveWolf();
         }
 
     }
 
-    void SelectSheep()
+    void Wolf_OnSelection(WolfSelector w)
+    {
+        currentSelectedWolf = w;
+    }
+    void Wolf_OnDeselection(WolfSelector w)
+    {
+        currentSelectedWolf = null;
+    }
+
+    void SelectWolf()
     {
         // raycast from mouse position in camera
         Ray rayClick = cam.ScreenPointToRay(Input.mousePosition);
@@ -57,25 +74,25 @@ public class PointerController : MonoBehaviour
         {
             Debug.DrawRay(rayClick.origin, rayClick.direction * 100, Color.red);
 
-            SheepSelector sheepController = raycastHit.transform.GetComponentInChildren<SheepSelector>();
+            WolfSelector wolfSelector = raycastHit.transform.GetComponentInChildren<WolfSelector>();
 
-            if(sheepController == null)
+            if(wolfSelector == null)
             {
                 Debug.Log("[PointerController] SheepSelector not found in " + raycastHit.transform.name);
             } else
             {
-                if(currentSelectedSheep != sheepController)
+                if(currentSelectedWolf != wolfSelector)
                 {
                     Debug.Log("[PointerController] Sheep selected: " + raycastHit.transform.name);
 
-                    if (currentSelectedSheep != null)
+                    if (currentSelectedWolf != null)
                     {
-                        currentSelectedSheep.Deselect();
+                        currentSelectedWolf.Deselect();
                     }
 
-                    currentSelectedSheep = sheepController;
+                    currentSelectedWolf = wolfSelector;
 
-                    currentSelectedSheep.Select();
+                    currentSelectedWolf.Select();
                 } else
                 {
                     Debug.Log("[PointerController] Same sheep selected: " + raycastHit.transform.name);
@@ -83,22 +100,24 @@ public class PointerController : MonoBehaviour
             }
         } else
         {
+            /*
             Debug.DrawRay(rayClick.origin, rayClick.direction * 100, Color.yellow);
 
             Debug.Log("[PointerController] No sheep selected");
 
-            if(currentSelectedSheep != null)
+            if(currentSelectedWolf != null)
             {
-                currentSelectedSheep.Deselect();
-                currentSelectedSheep = null;
+                currentSelectedWolf.Deselect();
+                currentSelectedWolf = null;
             }
+            */
         }
 
     }
 
-    void MoveSheep()
+    void MoveWolf()
     {
-        if(currentSelectedSheep != null)
+        if(currentSelectedWolf != null)
         {
             // raycast from mouse position in camera
             Ray rayClick = cam.ScreenPointToRay(Input.mousePosition);
@@ -107,7 +126,7 @@ public class PointerController : MonoBehaviour
             // raycast in selectionLayer
             if (Physics.Raycast(rayClick, out raycastHit, 100f, terrainLayer))
             {
-                currentSelectedSheep.Move(raycastHit.point);
+                currentSelectedWolf.Move(raycastHit.point);
             }
         }
     }
