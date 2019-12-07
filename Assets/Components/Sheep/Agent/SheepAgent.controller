@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c40c89d4765e2047bc1af02e8fcbf31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decisionTimer: 60
+  decisionTimer: 100
   closeWeight: 0
   mediumWeight: 2
   visionWeight: 4
