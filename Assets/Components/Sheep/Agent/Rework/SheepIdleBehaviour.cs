@@ -84,6 +84,7 @@ public class SheepIdleBehaviour : StateMachineBehaviour
             float angle = Random.Range(-turnRate, turnRate);
 
             sheepTransform.Rotate(Vector3.up, angle);
+            
 
             if (sheepAgent.isActiveAndEnabled)
                 sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);

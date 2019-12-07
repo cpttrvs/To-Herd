@@ -80,11 +80,19 @@ public class SheepFollowBehaviour : StateMachineBehaviour
 
                 meanPos /= sheepsInVision.Count;
 
-                if (sheepAgent.isActiveAndEnabled)
-                    sheepAgent.SetDestination(meanPos);
+                // prevent the case were only one is in close range
+                List<GameObject> closeSheeps = closeRadius.GetAllColliders("Sheep");
+                if(closeSheeps.Count == 2)
+                {
+                    animator.SetBool("isFollowing", false);
+                    animator.SetBool("isIdling", true);
+                } else
+                {
+                    if (sheepAgent.isActiveAndEnabled)
+                        sheepAgent.SetDestination(meanPos);
 
-                Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
-
+                    Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.green);
+                }
                 currentTimer = 0;
                 
             }

@@ -40,8 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447642fde06705a4faa4dc0383ba54ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decisionTimer: 60
-  nbSheepsToIdle: 1
+  decisionTimer: 20
+  nbSheepsToIdle: 2
 --- !u!1101 &-7804091101766039839
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcdc7a2e8eb28214daea08dbf62176a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfSheepsToFlock: 1
+  numberOfSheepsToFlock: 2
   turnRate: 30
   movementDistance: 2
   frequency: 100
