@@ -10,25 +10,49 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Enclosure enclosure = null;
 
+    [SerializeField]
+    private Herd herd = null;
+
     [Header("UI")]
     [SerializeField]
-    private TextMeshProUGUI txtNbEnclosure = null;
+    private TextMeshProUGUI currentNbSheeps = null;
+    [SerializeField]
+    private TextMeshProUGUI maxNbSheeps = null;
+
+    [SerializeField]
+    private GameObject timerObject = null;
     [SerializeField]
     private TextMeshProUGUI txtTimer = null;
 
 
+
     private float timeSinceStart = 0;
+    private GameConfig gameConfig = null;
 
     private void Start()
     {
-        
+        gameConfig = FindObjectOfType<GameConfig>();
+
+        if(gameConfig == null)
+        {
+            Debug.LogError("[GameManager] game config not found");
+        } else
+        {
+            timerObject.SetActive(gameConfig.showTimer);
+
+            herd.Init();
+            herd.AddSheeps(gameConfig.nbSheeps);
+
+            maxNbSheeps.text = herd.GetNbSheeps().ToString();
+
+        }
     }
 
     private void Update()
     {
         timeSinceStart += Time.deltaTime;
-        txtTimer.text = ((int)timeSinceStart).ToString();
+        txtTimer.text = (timeSinceStart).ToString("0.0");
 
-        txtNbEnclosure.text = enclosure.GetNumberOfSheepsInside().ToString();
+        currentNbSheeps.text = enclosure.GetNumberOfSheepsInside().ToString();
     }
 }

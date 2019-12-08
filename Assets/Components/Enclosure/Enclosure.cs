@@ -12,7 +12,7 @@ public class Enclosure : MonoBehaviour
     [SerializeField]
     private Color gizmoColor = Color.green;
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
         Gizmos.DrawWireCube(transform.position + center, size);
