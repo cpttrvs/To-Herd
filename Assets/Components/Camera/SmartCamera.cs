@@ -14,12 +14,7 @@ public class SmartCamera : MonoBehaviour
     [SerializeField]
     private Vector3 offset = Vector3.zero;
 
-    private void Awake()
-    {
-        Init();
-    }
-
-    private void Init()
+    public void Init()
     {
         selectors = FindObjectsOfType<WolfSelector>();
         for(int i = 0; i < selectors.Length; i++)

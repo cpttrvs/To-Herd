@@ -30,18 +30,21 @@ public class SheepController : MonoBehaviour
     public Action OnSelect;
     public Action OnDeselect;
     public Action OnMoveOrder;
-    
+
+    private bool isInit = false;
 
     public void Init()
     {
         animator.SetBool("isMoving", false);
         agent.SetBool("isIdling", true);
         lastPosition = transform.position;
+
+        isInit = true;
     }
 
     private void Update()
     {
-        if(!isDead)
+        if(!isDead && isInit)
         {
             if (lastPosition != transform.position)
             {

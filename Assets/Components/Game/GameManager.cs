@@ -11,8 +11,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject gameConfigPrefab = null;
     [SerializeField]
-    private Enclosure enclosure = null;
+    private SmartCamera smartCamera = null;
+    [SerializeField]
+    private WolfController wolfA = null;
+    [SerializeField]
+    private WolfController wolfB = null;
 
+    [SerializeField]
+    private Enclosure enclosure = null;
     [SerializeField]
     private Herd herd = null;
 
@@ -60,7 +66,12 @@ public class GameManager : MonoBehaviour
         herd.AddSheeps(gameConfig.nbSheeps);
 
         maxNbSheeps.text = herd.GetNbSheeps().ToString();
-        
+
+        smartCamera.Init();
+
+
+        // start
+        wolfA.GetComponentInChildren<WolfSelector>().Select();
     }
 
     private void Update()
