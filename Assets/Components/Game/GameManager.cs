@@ -50,6 +50,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private string menuSceneName = "";
 
+    [SerializeField]
+    private GameObject pauseUI = null;
+    [SerializeField]
+    private Toggle settingsToggle = null;
+    [SerializeField]
+    private Button restartButtonSettings = null;
+    [SerializeField]
+    private Button quitButtonSettings = null;
+
     private float timeSinceStart = 0;
     private GameConfig gameConfig = null;
     private bool hasStarted = false;
@@ -62,6 +71,11 @@ public class GameManager : MonoBehaviour
         
         //ui
         finishUI.SetActive(false);
+        pauseUI.SetActive(false);
+
+        settingsToggle.interactable = true;
+        settingsToggle.onValueChanged.AddListener(Settings_OnValueChanged);
+        txtTimer.text = (timeSinceStart).ToString("0.0");
 
         //game
         gameConfig = FindObjectOfType<GameConfig>();
@@ -114,6 +128,7 @@ public class GameManager : MonoBehaviour
                     restartButton.onClick.AddListener(OnRestartClick);
                     quitButton.onClick.AddListener(OnQuitClick);
 
+                    settingsToggle.interactable = false;
                     finishUI.SetActive(true);
 
                     Time.timeScale = 0;
@@ -124,6 +139,8 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        settingsToggle.onValueChanged.RemoveListener(Settings_OnValueChanged);
+
         Time.timeScale = 1;
     }
 
@@ -139,5 +156,24 @@ public class GameManager : MonoBehaviour
         quitButton.onClick.RemoveListener(OnQuitClick);
 
         OnQuit?.Invoke();
+    }
+
+    void Settings_OnValueChanged(bool v)
+    {
+        if(v)
+        {
+            Time.timeScale = 0;
+            pauseUI.SetActive(true);
+
+            restartButtonSettings.onClick.AddListener(OnRestartClick);
+            quitButtonSettings.onClick.AddListener(OnQuitClick);
+        } else
+        {
+            Time.timeScale = 1;
+            pauseUI.SetActive(false);
+
+            restartButtonSettings.onClick.RemoveListener(OnRestartClick);
+            quitButtonSettings.onClick.RemoveListener(OnQuitClick);
+        }
     }
 }

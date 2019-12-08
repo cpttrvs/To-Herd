@@ -96,6 +96,16 @@ PrefabInstance:
       propertyPath: selector
       value: 
       objectReference: {fileID: 3382533483547644328}
+    - target: {fileID: 1303696005629166748, guid: b065df82c3038e74785026db011d6b4b,
+        type: 3}
+      propertyPath: navMeshAgent
+      value: 
+      objectReference: {fileID: 3878889581186994400}
+    - target: {fileID: 1303696005629166748, guid: b065df82c3038e74785026db011d6b4b,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7632869230279950143}
     - target: {fileID: 2172286528724992770, guid: b065df82c3038e74785026db011d6b4b,
         type: 3}
       propertyPath: m_Speed
@@ -127,6 +137,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af5477d7e6046a4d928778dc8884a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &3878889581186994400 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 2172286528724992770, guid: b065df82c3038e74785026db011d6b4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3166336835623867362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7632869230279950143 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4763806255556865245, guid: b065df82c3038e74785026db011d6b4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3166336835623867362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3957841083309139025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2097558044573366195, guid: b065df82c3038e74785026db011d6b4b,

@@ -11,7 +11,9 @@ public class MainSceneManager : MonoBehaviour
     private string menuScene = "";
 
     [SerializeField]
-    private Camera camera = null;
+    private Camera cam = null;
+    [SerializeField]
+    private GameObject canvas = null;
 
     private UIManager menuManager = null;
     private GameManager gameManager = null;
@@ -31,7 +33,8 @@ public class MainSceneManager : MonoBehaviour
     {
         if (arg0.name == menuScene)
         {
-            camera.gameObject.SetActive(false);
+            cam.gameObject.SetActive(false);
+            canvas.SetActive(false);
 
             menuManager = FindObjectOfType<UIManager>();
 
@@ -41,7 +44,8 @@ public class MainSceneManager : MonoBehaviour
 
         if(arg0.name == gameScene)
         {
-            camera.gameObject.SetActive(false);
+            cam.gameObject.SetActive(false);
+            canvas.SetActive(false);
 
             gameManager = FindObjectOfType<GameManager>();
 
@@ -67,9 +71,9 @@ public class MainSceneManager : MonoBehaviour
     {
         menuManager.OnPlay -= MenuManagerOnPlay;
         menuManager.OnQuit -= MenuManagerOnQuit;
-
-
-        camera.gameObject.SetActive(true);
+        
+        canvas.SetActive(true);
+        cam.gameObject.SetActive(true);
         mustLoadGame = true;
         SceneManager.UnloadSceneAsync(menuScene);
     }
@@ -88,7 +92,8 @@ public class MainSceneManager : MonoBehaviour
         gameManager.OnRestart -= GameManagerOnRestart;
         gameManager.OnQuit -= GameManagerOnQuit;
 
-        camera.gameObject.SetActive(true);
+        canvas.SetActive(true);
+        cam.gameObject.SetActive(true);
         mustLoadGame = true;
         SceneManager.UnloadSceneAsync(gameScene);
     }
@@ -98,7 +103,8 @@ public class MainSceneManager : MonoBehaviour
         gameManager.OnRestart -= GameManagerOnRestart;
         gameManager.OnQuit -= GameManagerOnQuit;
 
-        camera.gameObject.SetActive(true);
+        canvas.SetActive(true);
+        cam.gameObject.SetActive(true);
         mustLoadGame = false;
         SceneManager.UnloadSceneAsync(gameScene);
     }

@@ -75,52 +75,58 @@ public class SheepIdleBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // realistic idle
-        currentStep++;
-        if (currentStep == frequency)
+        if(Time.timeScale != 0)
         {
-            currentStep = 0;
+            // realistic idle
+            currentStep++;
+            if (currentStep == frequency)
+            {
+                currentStep = 0;
 
-            float angle = Random.Range(-turnRate, turnRate);
+                float angle = Random.Range(-turnRate, turnRate);
 
-            sheepTransform.Rotate(Vector3.up, angle);
-            
+                sheepTransform.Rotate(Vector3.up, angle);
 
-            if (sheepAgent.isActiveAndEnabled)
-                sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
 
-            Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
-        }
+                if (sheepAgent.isActiveAndEnabled)
+                    sheepAgent.SetDestination(sheepTransform.position + sheepTransform.forward * movementDistance);
 
-        // if a wolf in vision, flee
-        List<GameObject> wolfInVision = visionRadius.GetAllColliders("Player");
+                Debug.DrawLine(sheepTransform.position, sheepAgent.destination, Color.blue);
+            }
 
-        if(wolfInVision.Count > 0)
-        {
-            animator.SetBool("isIdling", false);
-            animator.SetBool("isFleeing", true);
-        } else
-        {
-            // if only itself in medium, wander
-            List<GameObject> sheepsInMedium = mediumRadius.GetAllColliders("Sheep");
+            // if a wolf in vision, flee
+            List<GameObject> wolfInVision = visionRadius.GetAllColliders("Player");
 
-            if (sheepsInMedium.Count == 1)
+            if (wolfInVision.Count > 0)
             {
                 animator.SetBool("isIdling", false);
-                animator.SetBool("isWandering", true);
-            } else
+                animator.SetBool("isFleeing", true);
+            }
+            else
             {
-                // if less than nbSheepsToFlock in close, follow
+                // if only itself in medium, wander
+                List<GameObject> sheepsInMedium = mediumRadius.GetAllColliders("Sheep");
 
-                List<GameObject> sheepsInClose = closeRadius.GetAllColliders("Sheep");
-
-                if (sheepsInClose.Count <= numberOfSheepsToFlock && sheepsInClose.Count > 1)
+                if (sheepsInMedium.Count == 1)
                 {
                     animator.SetBool("isIdling", false);
-                    animator.SetBool("isFollowing", true);
+                    animator.SetBool("isWandering", true);
+                }
+                else
+                {
+                    // if less than nbSheepsToFlock in close, follow
+
+                    List<GameObject> sheepsInClose = closeRadius.GetAllColliders("Sheep");
+
+                    if (sheepsInClose.Count <= numberOfSheepsToFlock && sheepsInClose.Count > 1)
+                    {
+                        animator.SetBool("isIdling", false);
+                        animator.SetBool("isFollowing", true);
+                    }
                 }
             }
         }
+        
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
