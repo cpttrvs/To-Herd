@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private string gameSceneName = "";
+    public Action OnPlay;
+    public Action OnQuit;
+    
     [SerializeField]
     private GameObject gameConfigPrefab = null;
 
@@ -78,7 +80,7 @@ public class UIManager : MonoBehaviour
         gameConfig.showTimer = timerToggle.isOn;
         gameConfig.nbSheeps = numberOfSheeps;
 
-        SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
+        OnPlay?.Invoke();
     }
 
     void OnSettingsValueChanged(bool v)
@@ -88,6 +90,7 @@ public class UIManager : MonoBehaviour
 
     void OnQuitClick()
     {
+        OnQuit?.Invoke();
         Application.Quit();
     }
 

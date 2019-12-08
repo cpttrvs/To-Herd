@@ -32,12 +32,8 @@ public class Herd : MonoBehaviour
         for(int i = 0; i < n; i++)
         {
             GameObject temp = Instantiate(sheepPrefab, transform);
-            Vector3 pos = new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2));
-            temp.transform.localPosition = pos;
-            temp.transform.localPosition = Vector3.zero;
-            //temp.transform.position = new Vector3(transform.position.x + Random.Range(-size.x/2, size.x/2), 1, transform.position.z + Random.Range(-size.z/2, size.z/2));
-            Debug.Log("pos : " + temp.transform.position + ", vec : " + pos);
-
+            
+            temp.transform.position = new Vector3(transform.position.x + Random.Range(-size.x/2, size.x/2), 1, transform.position.z + Random.Range(-size.z/2, size.z/2));
             
             SheepController tempController = temp.GetComponentInChildren<SheepController>();
             if(tempController == null)
@@ -48,8 +44,7 @@ public class Herd : MonoBehaviour
                 sheeps.Add(tempController);
                 tempController.Init();
             }
-
-            Debug.Log("pos : " + temp.transform.position);
+            
         }
     }
 
