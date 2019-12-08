@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Game")]
+    [SerializeField]
+    private GameObject gameConfigPrefab = null;
     [SerializeField]
     private Enclosure enclosure = null;
 
@@ -24,28 +27,40 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI txtTimer = null;
 
-
+    [SerializeField]
+    private GameObject finishUI = null;
+    [SerializeField]
+    private Button restartButton = null;
+    [SerializeField]
+    private Button quitButton = null;
+    [SerializeField]
+    private string menuSceneName = "";
 
     private float timeSinceStart = 0;
     private GameConfig gameConfig = null;
 
     private void Start()
     {
+        //ui
+        finishUI.SetActive(false);
+
+        //game
         gameConfig = FindObjectOfType<GameConfig>();
 
-        if(gameConfig == null)
+        if (gameConfig == null)
         {
-            Debug.LogError("[GameManager] game config not found");
-        } else
-        {
-            timerObject.SetActive(gameConfig.showTimer);
-
-            herd.Init();
-            herd.AddSheeps(gameConfig.nbSheeps);
-
-            maxNbSheeps.text = herd.GetNbSheeps().ToString();
-
+            Debug.LogWarning("[GameManager] no game config found, creating");
+            GameObject temp = Instantiate(gameConfigPrefab);
+            gameConfig = temp.GetComponentInChildren<GameConfig>();
         }
+
+        timerObject.SetActive(gameConfig.showTimer);
+
+        herd.Init();
+        herd.AddSheeps(gameConfig.nbSheeps);
+
+        maxNbSheeps.text = herd.GetNbSheeps().ToString();
+        
     }
 
     private void Update()
@@ -54,5 +69,32 @@ public class GameManager : MonoBehaviour
         txtTimer.text = (timeSinceStart).ToString("0.0");
 
         currentNbSheeps.text = enclosure.GetNumberOfSheepsInside().ToString();
+
+        // if all the sheeps are inside, win
+        if(enclosure.GetNumberOfSheepsInside() == herd.GetNbSheeps())
+        {
+            restartButton.onClick.AddListener(OnRestartClick);
+            quitButton.onClick.AddListener(OnQuitClick);
+
+            finishUI.SetActive(true);
+
+            Time.timeScale = 0;
+        }
+    }
+
+    private void OnDestroy()
+    {
+    }
+
+    void OnRestartClick()
+    {
+        restartButton.onClick.RemoveListener(OnRestartClick);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void OnQuitClick()
+    {
+        quitButton.onClick.RemoveListener(OnQuitClick);
+        SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
     }
 }

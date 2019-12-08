@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private string gameSceneName = "";
+    [SerializeField]
+    private GameObject gameConfigPrefab = null;
 
     [SerializeField]
     private Button playButton = null;
@@ -34,30 +36,34 @@ public class UIManager : MonoBehaviour
     private int minSheeps = 1;
     [SerializeField]
     private int maxSheeps = 25;
-    [SerializeField]
     private int numberOfSheeps = 10;
 
     private GameConfig gameConfig = null;
 
     private void Start()
     {
-        playButton.onClick.AddListener(OnPlayClick);
-        settingsToggle.onValueChanged.AddListener(OnSettingsValueChanged);
-        quitButton.onClick.AddListener(OnQuitClick);
-
         settingsPanel.gameObject.SetActive(false);
+
+        gameConfig = FindObjectOfType<GameConfig>();
+        if(gameConfig == null)
+        {
+            Debug.LogWarning("[UIManager] no game config found, creating");
+            GameObject temp = Instantiate(gameConfigPrefab);
+            gameConfig = temp.GetComponentInChildren<GameConfig>();
+        }
+
+        numberOfSheeps = gameConfig.nbSheeps;
+        nbSheeps.text = numberOfSheeps.ToString();
+        timerToggle.isOn = gameConfig.showTimer;
+
 
         timerToggle.onValueChanged.AddListener(OnTimerValueChanged);
         addSheeps.onClick.AddListener(OnAddSheepClick);
         removeSheeps.onClick.AddListener(OnRemoveSheepClick);
 
-        nbSheeps.text = numberOfSheeps.ToString();
-
-        gameConfig = FindObjectOfType<GameConfig>();
-        if(gameConfig == null)
-        {
-            Debug.LogError("[UIManager] no game config found");
-        }
+        playButton.onClick.AddListener(OnPlayClick);
+        settingsToggle.onValueChanged.AddListener(OnSettingsValueChanged);
+        quitButton.onClick.AddListener(OnQuitClick);
     }
 
     private void OnDestroy()
